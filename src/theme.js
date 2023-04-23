@@ -13,7 +13,7 @@ const theme = extendTheme({
   initialColorMode: 'dark',
   useSystemColorMode: false,
   colors: {
-		secondary: "#2D2D34",
+		secondary: "#1B1B1B",
 		primary: "#ffffff",
 	},
 	styles: {
