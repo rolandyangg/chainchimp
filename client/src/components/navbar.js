@@ -18,6 +18,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Navbar() {
   return (
@@ -33,6 +34,7 @@ export default function Navbar() {
                 <HStack spacing={6} flexWrap="wrap" justify="center">
                     <Link href="/" _hover={{color: "white"}}><Text color="whiteAlpha.700" fontSize="xl" _hover={{color: "white"}}>home</Text></Link>
                     <Link href="/Dashboard" _hover={{color: "white"}}><Text color="whiteAlpha.700" fontSize="xl" _hover={{color: "white"}}>dashboard</Text></Link>
+                    <ConnectButton />
                 </HStack>
             </Flex>
         </Box>

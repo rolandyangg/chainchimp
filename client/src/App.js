@@ -4,8 +4,37 @@ import Home from "./components/index/index.js"
 import { RouterProvider } from "react-router-dom";
 import { router } from "./lib/routes";
 
+// rainbowkit import
+import '@rainbow-me/rainbowkit/styles.css';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
+import { getDefaultWallets, RainbowKitProvider, Chain } from '@rainbow-me/rainbowkit';
+import { configureChains, createClient, WagmiConfig } from 'wagmi';
+import { mainnet } from 'wagmi/chains';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
+import { publicProvider } from 'wagmi/providers/public';
+
+const { chains, provider } = configureChains(
+  [mainnet],
+  [
+    alchemyProvider({ apiKey: 's8TOMw4LvVa9bvRU-cab67-LOwtUy8xG' }),
+    publicProvider()
+  ]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'Supply Chain',
+  projectId: 'c71f6f4c5aa7344af9370567c6dfe038',
+  chains
+});
+
+const wagmiClient = createClient({ autoConnect: true, connectors, provider })
+// end rainbowkit setup
+
 export default function App() {
   return (
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
     <>
     <RouterProvider router={router}/>
     {/* <div className="container">
@@ -50,5 +79,7 @@ export default function App() {
         </div>
       </main>
   </div> */}</>
+        </RainbowKitProvider>
+    </WagmiConfig>
   );
 }

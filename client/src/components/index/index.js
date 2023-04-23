@@ -21,6 +21,7 @@ import { FaGithub } from 'react-icons/fa'
 import Footer from '../footer.js'
 import Navbar from '../navbar.js'
 
+
 export default function Home() {
   return (
       <>
