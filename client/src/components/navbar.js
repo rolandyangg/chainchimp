@@ -10,16 +10,18 @@ import {
   Code,
   Image,
   Grid,
+  Button,
+  Stack,
   Heading,
   Icon,
   HStack,
+  useBreakpointValue,
 } from '@chakra-ui/react';
-import theme from './theme'
 import { FaGithub } from 'react-icons/fa'
 
-function Dashboard() {
+export default function Navbar() {
   return (
-    <ChakraProvider theme={theme}>
+    <>
 
       {/** NAVBAR */}
       <Center Center justify="center">
@@ -35,16 +37,6 @@ function Dashboard() {
             </Flex>
         </Box>
       </Center>
-
-    {/** FOOTER */}
-    <Center justify="center" p="50px" color="whiteAlpha.700">
-            <VStack>
-                <Text>📦 LAHacks Project © 2023 📦</Text>
-                <Link href="https://github.com/rolandyangg/supply-chain-blockchain" isExternal><Icon as={FaGithub}/></Link>
-            </VStack>
-      </Center>
-    </ChakraProvider>
+    </>
   );
 }
-
-export default Dashboard;
