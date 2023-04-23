@@ -84,7 +84,7 @@ contract SupplyChain {
     }
 
     // createTransaction
-    function createTransaction(address _sender, address _receiver, uint _productID, uint _price, string memory _memo) public returns (uint) {
+    function createTransaction(address _sender, address payable _receiver, uint _productID, uint _price, string memory _memo) public payable returns (uint) {
         uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender)));
 
         Transaction storage transaction = transactions[_id];
@@ -98,13 +98,9 @@ contract SupplyChain {
         transaction.timestamp = block.timestamp;
         // convert unix timestamp to actual time https://www.unixtimestamp.com/
 
-        
+        _receiver.transfer(_price);
         return _id;
     }
-
-    // getParties
-
-    // getProducts
     
 
 
