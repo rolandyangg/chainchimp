@@ -5,10 +5,11 @@ pragma solidity ^0.8.0;
 // Define the contract
 contract SupplyChain {
     enum STAGE {
+        init,
         Raw_Material,
-        Supplier,
         Manufacturer,
         Distributor,
+        Retailer,
         Consumer
     }
     
@@ -27,7 +28,7 @@ contract SupplyChain {
         uint id; // hashed ID
         STAGE stage; // always start as raw materials
         string item;
-
+        uint quantity;
         // Put in a tracking number, we can see everything about the product 
         uint[] history; // Transaction ID history
     }
@@ -43,6 +44,8 @@ contract SupplyChain {
     mapping (address => Party) public parties;
     mapping (uint => Product) public products;
     mapping (uint => Transaction) public transactions;
+
+    address[] partyAddresses;
 
     // function getProduct(uint _id) public view returns (Product) {
     //     return products[_id];
@@ -61,11 +64,12 @@ contract SupplyChain {
     }
 
     // createProduct
-    function createProduct(string memory _item) public returns (uint) {
+    function createProduct(string memory _item, uint _quantity) public returns (uint) {
         uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender)));
         Product storage product = products[_id];
         // require(some condition)
         product.id = _id;
+        product.quantity = _quantity;
         product.stage = STAGE.Raw_Material;
         product.item = _item;
         
@@ -75,6 +79,7 @@ contract SupplyChain {
     // createParty
     function createParty(string memory _name, string memory _location, STAGE _role, address _wallet) public {
         Party storage party = parties[_wallet];
+        partyAddresses.push(_wallet);
 
         party.name = _name;
         party.wallet = _wallet;
@@ -107,7 +112,15 @@ contract SupplyChain {
         return products[_id].history;
     }
 
-    
+    function getParties() public view returns (Party[] memory, uint) {
+        uint length = partyAddresses.length;
+        Party[] memory allParties = new Party[](length);
+
+        for (uint i = 0; i < length; i++) {
+            allParties[i] = parties[partyAddresses[i]];
+        }
+        return (allParties, length);
+    }
 
     // Define a function to create a new shipment
     // function createShipment(address _receiver, string memory _item) public {
