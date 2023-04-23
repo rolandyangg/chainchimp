@@ -6,6 +6,7 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "./styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react"
 import theme from "./theme.js"
+import { StateContextProvider } from "./context";
 
 // This is the chain your dApp will work on.
 // Change this to the chain your app is built for.
@@ -18,7 +19,9 @@ root.render(
   <React.StrictMode>
     <ThirdwebProvider activeChain={activeChain}>
       <ChakraProvider theme={theme}>
-        <App />
+        <StateContextProvider>
+          <App />
+        </StateContextProvider>
       </ChakraProvider>
     </ThirdwebProvider>
   </React.StrictMode>
