@@ -30,7 +30,6 @@ contract SupplyChain {
 
         // Put in a tracking number, we can see everything about the product 
         uint[] history; // Transaction ID history
-        address[] ownerHistory;
     }
 
     struct Party {
@@ -95,14 +94,20 @@ contract SupplyChain {
         transaction.productID = _productID;
         transaction.price = _price;
         transaction.memo = _memo;
-        transaction.timestamp = block.timestamp;
-        // convert unix timestamp to actual time https://www.unixtimestamp.com/
+        transaction.timestamp = block.timestamp; // convert unix timestamp to actual time https://www.unixtimestamp.com/
 
-        _receiver.transfer(_price);
+        _receiver.transfer(_price); // send ETH
+
+        products[_productID].history.push(_id); // add transaction ID to transaction history
+
         return _id;
     }
     
+    function getTransactionHistory(uint _id) public view returns (uint[] memory) {
+        return products[_id].history;
+    }
 
+    
 
     // Define a function to create a new shipment
     // function createShipment(address _receiver, string memory _item) public {
