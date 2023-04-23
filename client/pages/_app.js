@@ -8,9 +8,11 @@ const activeChain = "ethereum";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThirdwebProvider activeChain={activeChain}>
-      <Component {...pageProps} />
-    </ThirdwebProvider>
+    <ChakraProvider>
+      <ThirdwebProvider activeChain={activeChain}>
+        <Component {...pageProps} />
+      </ThirdwebProvider>
+    </ChakraProvider>
   );
 }
 
