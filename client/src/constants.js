@@ -17,4 +17,4 @@ const NUM_TO_STAGE = new Map([
 export { STAGE_TO_NUM };
 export { NUM_TO_STAGE };
 
-export const CONTRACT_ID =  "0xc70a2739fB6BB0d2D31d61B1aEe7FEC76Dec77B3";
+export const CONTRACT_ID =  "0xF3C0182C290c0Ff7eb5443582Fa12BF4E15AC6Fc";
