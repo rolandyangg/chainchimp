@@ -1,3 +1,1 @@
-export default {
-    CONTRACT_ID: "0x1A81035B08a17bE02D83B5d3dAF2d6fa5cA4B3f8"
-}
+export const CONTRACT_ID =  "0xBFdd19b0f4bd2DC8e8AA161CC43F1c8e5e00f3b9";

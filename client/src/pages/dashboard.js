@@ -39,11 +39,11 @@ import ProductCard from '../components/dashboardproduct.js'
 import ManageChain from '../components/managechain.js'
 import { useAddress, useContract } from '@thirdweb-dev/react';
 
-const CONTRACT_ID = "0xBFdd19b0f4bd2DC8e8AA161CC43F1c8e5e00f3b9";
+import { CONTRACT_ID } from '../constants.js';
 
 export default function Dashboard() {
   const address = useAddress();
-  const { isLoading, contract } = useContract(process.env.CONTRACT_ID);
+  const { isLoading, contract } = useContract(CONTRACT_ID);
   const [products, setProducts] = useState();
   console.log(products)
 
@@ -82,8 +82,8 @@ export default function Dashboard() {
                         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
                         {products && products.map(product => 
                         {
-                          { console.log(product); }
-                          return <ProductCard name={product.name} id={product.id} stage={product.stage} party={product.party} progress="40"/>
+                          { console.log("mapping", product); }
+                          return <ProductCard key={product.id} name={product[2]} id={product.id} stage={product.stage} party={product.party} progress="40"/>
                         }
                         )}
                           {/* <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
