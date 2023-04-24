@@ -5,6 +5,7 @@ pragma solidity ^0.8.0;
 // Define the contract
 contract SupplyChain {
     enum STAGE {
+        ChainManager,
         Raw_Material,
         Manufacturer,
         Distributor,
@@ -30,6 +31,7 @@ contract SupplyChain {
         uint quantity;
         // Put in a tracking number, we can see everything about the product 
         uint[] history; // Transaction ID history
+        address currentowner;
     }
 
     struct Party {
@@ -51,17 +53,18 @@ contract SupplyChain {
     
     constructor() {
     // Initialize the mappings in the constructor
-    STAGE_TO_NUM[STAGE.Raw_Material] = 0;
-    STAGE_TO_NUM[STAGE.Manufacturer] = 1;
-    STAGE_TO_NUM[STAGE.Distributor] = 2;
-    STAGE_TO_NUM[STAGE.Retailer] = 3;
-    STAGE_TO_NUM[STAGE.Consumer] = 4;
+    STAGE_TO_NUM[STAGE.ChainManager] = 0;
+    STAGE_TO_NUM[STAGE.Raw_Material] = 1;
+    STAGE_TO_NUM[STAGE.Manufacturer] = 2;
+    STAGE_TO_NUM[STAGE.Distributor] = 3;
+    STAGE_TO_NUM[STAGE.Retailer] = 4;
+    STAGE_TO_NUM[STAGE.Consumer] = 5;
 
-    NUM_TO_STAGE[0] = STAGE.Raw_Material;
-    NUM_TO_STAGE[1] = STAGE.Manufacturer;
-    NUM_TO_STAGE[2] = STAGE.Distributor;
-    NUM_TO_STAGE[3] = STAGE.Retailer;
-    NUM_TO_STAGE[4] = STAGE.Consumer;
+    NUM_TO_STAGE[1] = STAGE.Raw_Material;
+    NUM_TO_STAGE[2] = STAGE.Manufacturer;
+    NUM_TO_STAGE[3] = STAGE.Distributor;
+    NUM_TO_STAGE[4] = STAGE.Retailer;
+    NUM_TO_STAGE[5] = STAGE.Consumer;
     }
 
     // Input: product name, quantity | Returns item ID
@@ -71,8 +74,9 @@ contract SupplyChain {
         // require(some condition)
         product.id = _id;
         product.quantity = _quantity;
-        product.stage = STAGE.Raw_Material;
+        product.stage = STAGE.ChainManager;
         product.item = _item;
+        product.currentowner = _wallet;
         parties[_wallet].productIDs.push(_id);
         
         return _id;        
@@ -106,7 +110,11 @@ contract SupplyChain {
         
         products[_productID].history.push(_id); // add transaction ID to transaction history
         
-        NUM_TO_STAGE[STAGE_TO_NUM[products[_productID].stage]++];
+        // NUM_TO_STAGE[STAGE_TO_NUM[products[_productID].stage]++];
+        products[_productID].currentowner = _receiver; // Set the current owner of the product to whoever received it
+        products[_productID].stage = parties[_receiver].role; // Set the current stage to whatever role the party is
+
+        giveProduct(_receiver, _productID);
 
         return _id;
     }
@@ -162,5 +170,9 @@ contract SupplyChain {
             transactionHistory[i] = transaction;
         }
         return transactionHistory;
+    }
+
+    function giveProduct(address _wallet, uint _productID) public {
+        parties[_wallet].productIDs.push(_productID);
     }
 }

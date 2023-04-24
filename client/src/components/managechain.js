@@ -85,7 +85,7 @@ export default function ManageChain() {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
-        contract.call("createParty", [data.name, data.location, STAGE_TO_NUM.get(data.type), address])
+        contract.call("createParty", [data.name, data.location, STAGE_TO_NUM.get(data.type), data.address])
       }
 
   return (

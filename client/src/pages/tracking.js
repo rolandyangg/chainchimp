@@ -13,6 +13,7 @@ import {
   Progress,
   Input,
   Divider,
+  Link,
   Tabs,
   TabList,
   Tab,
@@ -51,16 +52,29 @@ struct Transaction {
  */
 
 function TransactionCard({id, sender, receiver, sender_role, reciever_role, price, memo, timestamp}) {
-    return (
+  function timeConverter(UNIX_timestamp){
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = month + ' ' + date + ', ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    return time;
+  }  
+  
+  return (
         <>
         <Card mx="10px" my="30px" overflow='hidden' variant='outline' maxW="90%" bgColor="blackAlpha.300" color="white">
             <CardBody mt="-7px">
                 <Flex align="center" justify="space-between" w="100%">
                     <VStack align="left">
                         <Text>ID: {id}</Text>
-                        <Text>Sender ({sender_role}): {sender}</Text>
-                        <Text>Receiver ({reciever_role}): {receiver}</Text>
-                        <Text>Timestamp: {timestamp}</Text>
+                        <Text>Sender ({sender_role}): <Link isExternal href={"https://sepolia.etherscan.io/address/" + sender.toString()}>{sender}</Link></Text>
+                        <Text>Receiver ({reciever_role}): <Link isExternal href={"https://sepolia.etherscan.io/address/" + receiver.toString()}>{receiver}</Link></Text>
+                        <Text>Timestamp: {timeConverter(timestamp)}</Text>
                     </VStack>
                     <Box m="30px">
                     <Text>Memo: {memo}</Text>
@@ -96,6 +110,7 @@ export default function Tracking() {
       if(address && !isLoading) // logged in
       {
         setProduct(await contract.call('getProduct', [id]));
+        console.log(product)
       }
     }
   
@@ -114,20 +129,20 @@ export default function Tracking() {
   return (
     <>
       <Center m={{base: "25px", md: "50px"}}>
-            <VStack border="1px" p="30px" rounded={7} w="95%" maxW="1200px" minH="700px">
+            <VStack align="center" border="1px" p="30px" rounded={7} w="95%" maxW="1200px" minH="700px">
 
             {/* PRODUCT MAIN INFORMATION */}
                 <Heading py="10px" fontSize="2xl">Product Information</Heading>
-            {product &&
+            {product && 
               <div>
                 {product[2] ? 
                   <Box align="left">
                       <VStack align="left" p="20px" minW={{base: "400px", md: "700px"}}>
                           <Text fontSize="lg">Name: {product[2]} </Text>
                           <Text fontSize="lg">ID: {id} </Text>
-                          <Text fontSize="lg">Quantity: {product[3]._hex} </Text>
+                          <Text fontSize="lg">Quantity: {parseInt(product[3]._hex, 16)} </Text> 
                           <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
-                          <Text fontSize="lg">Current Owner: </Text>
+                          <Text fontSize="lg">Current Owner: <Link isExternal href={"https://sepolia.etherscan.io/address/" + product[5].toString()}>{product[5]}</Link></Text>
                           <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
                       </VStack>
                   </Box>
@@ -144,15 +159,31 @@ export default function Tracking() {
             {transactionHistory && 
               <div>
                 {
-                  (transactionHistory[0])
-                    ?  <TransactionCard id={id} sender={transactionHistory[0].sender} 
-                                      sender_role={NUM_TO_STAGE.get(product[1]-1)} 
-                                      receiver={transactionHistory[0].receiver} 
-                                      reciever_role={NUM_TO_STAGE.get(product[1])} 
-                                      price={transactionHistory[0].price}
-                                      memo={transactionHistory[0].memo}
-                                      timestamp={transactionHistory[0].timestamp._hex}
-                                      />
+                  (transactionHistory[0]) ? (
+                    transactionHistory.map(history =>
+                          {
+                            return <TransactionCard id={history[0]._hex} sender={history.sender}
+                            sender_role={""} receiver={history.receiver} receiver_role={""} price={history.price} 
+                            memo={history.memo} timestamp={history.timestamp._hex}/>
+                          })
+                    // <TransactionCard id={id} sender={transactionHistory[0].sender} 
+                    //                   sender_role={NUM_TO_STAGE.get(product[1]-1)} 
+                    //                   receiver={transactionHistory[0].receiver} 
+                    //                   reciever_role={NUM_TO_STAGE.get(product[1])} 
+                    //                   price={transactionHistory[0].price}
+                    //                   memo={transactionHistory[0].memo}
+                    //                   timestamp={transactionHistory[0].timestamp._hex}
+                    //                   />
+                  )
+                  // <>
+                  //     transactionHistory.map(history =>
+                  //     {
+                  //       return <TransactionCard id={history.id} sender={history.sender}
+                  //       sender_role="" reciever={history.reciever} reciever_role="" price={history.price} 
+                  //       memo={history.memo} timestamp={history.timestamp._hex}/>
+                  //     })
+                  //   </>
+                    
                     : <div> no valid transactions </div>
                 }
               </div>
