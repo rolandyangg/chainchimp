@@ -104,7 +104,7 @@ export default function Tracking() {
                 <Box align="left">
                     <VStack align="left" p="20px" minW={{base: "400px", md: "700px"}}>
                         <Text fontSize="lg">Name: </Text>
-                        <Text fontSize="lg">ID: </Text>
+                        <Text fontSize="lg">ID: {id} </Text>
                         <Text fontSize="lg">Quantity: </Text>
                         <Text fontSize="lg">Stage: </Text>
                         <Text fontSize="lg">Current Owner: </Text>
