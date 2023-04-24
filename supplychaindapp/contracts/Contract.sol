@@ -108,6 +108,8 @@ contract SupplyChain {
         
         NUM_TO_STAGE[STAGE_TO_NUM[products[_productID].stage]++];
 
+        giveProduct(_receiver, _productID);
+
         return _id;
     }
     
@@ -162,5 +164,9 @@ contract SupplyChain {
             transactionHistory[i] = transaction;
         }
         return transactionHistory;
+    }
+
+    function giveProduct(address _wallet, uint _productID) public {
+        parties[_wallet].productIDs.push(_productID);
     }
 }
