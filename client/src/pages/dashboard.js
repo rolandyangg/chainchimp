@@ -37,6 +37,7 @@ import ProductCard from '../components/dashboardproduct.js'
 
 // Panels
 import ManageChain from '../components/managechain.js'
+import Transaction from '../components/transaction.js'
 import { useAddress, useContract } from '@thirdweb-dev/react';
 
 import { CONTRACT_ID } from '../constants.js';
@@ -72,7 +73,7 @@ export default function Dashboard() {
                     <TabList isFitted mb='1em'>
                       <Tab>Active Products</Tab>
                       <Tab>Manage My Supply Chain</Tab>
-                      <Tab>Track Product History</Tab>
+                      <Tab>Make Transaction</Tab>
                     </TabList>
                     <Divider/>
                     <TabPanels>
@@ -98,6 +99,7 @@ export default function Dashboard() {
                       </TabPanel>
                       <TabPanel>
                         {/* Track Product History */}
+                        <Transaction/>
                       </TabPanel>
                     </TabPanels>
                   </Tabs>
