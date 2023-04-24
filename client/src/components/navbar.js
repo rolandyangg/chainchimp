@@ -11,17 +11,35 @@ import {
 } from '@chakra-ui/react';
 import { ConnectWallet, useAddress, useContract, useContractWrite } from '@thirdweb-dev/react';
 
+const CONTRACT_ID = '0xC1ACcc3Ce431a28EC487bf84DbD37A5caBf25834';
+
 export default function Navbar() {
   const address = useAddress();
+  const { isLoading, contract } = useContract(CONTRACT_ID);
 
   useEffect(() => {
-    console.log(address);
-    if(address) // logged in
-    {
-      // const 
-      // check if is valid
+    async function fetchData() {
+      console.log(address, isLoading);
+      if(address && !isLoading) // logged in
+      {
+        const isNewParty = await contract.call('isNewParty', [address])
+      }
     }
-  }, [address])
+  
+    fetchData();
+  }, [address, contract, isLoading]);
+
+
+  // useEffect(async () => {
+  //   console.log(address, isLoading);
+  //   if(address && !isLoading) // logged in
+  //   {
+  //     const isNewParty = await contract.call('isNewParty', [address])
+  //     console.log(isNewParty);
+  //     // const 
+  //     // check if is valid
+  //   }
+  // }, [address, contract])
 
 
   return (

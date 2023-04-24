@@ -5,7 +5,6 @@ pragma solidity ^0.8.0;
 // Define the contract
 contract SupplyChain {
     enum STAGE {
-        init,
         Raw_Material,
         Manufacturer,
         Distributor,
@@ -63,6 +62,8 @@ contract SupplyChain {
     // Input: party name, location, stage # (starts at 0), wallet address
     function createParty(string memory _name, string memory _location, STAGE _role, address _wallet) public {
         Party storage party = parties[_wallet];
+        if (party.wallet != 0x0000000000000000000000000000000000000000) return;
+        
         partyAddresses.push(_wallet);
 
         party.name = _name;
@@ -91,7 +92,12 @@ contract SupplyChain {
         return _id;
     }
     
-    
+    function isNewParty(address _id) public view returns (bool) {
+        for (uint i = 0; i < partyAddresses.length; i++)
+            if (partyAddresses[i] == _id) return false;
+        return true;
+    }
+
     function getParty(address _partyAddress) public view returns (Party memory) {
         return parties[_partyAddress];
     }
