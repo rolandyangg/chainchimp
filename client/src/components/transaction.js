@@ -38,8 +38,9 @@ export default function Transaction() {
 
       try{
         const res = await contract.call("createTransaction", [address, data.receiver, data.productID, web3.utils.toWei(data.price, 'ether'), data.memo]);
-        const isValidParty = await contract.call("isNewParty", [address]);
-        if(!isValidParty)
+        const isNewParty = await contract.call("isNewParty", [address]);
+
+        if(isNewParty)
         {
           setError("Not a valid party");
           console.log("not a valid party");
