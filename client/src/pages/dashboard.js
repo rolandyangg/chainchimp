@@ -79,6 +79,26 @@ export default function Dashboard() {
                       <TabPanel>
                         {/* Active Products */}
                         <Box justify="center" py="10px" fontSize="xl">
+                        <form>
+                          <HStack>
+                              <FormControl isRequired>
+                                <FormLabel>Product Name</FormLabel>
+                                <Input name="name" isRequired />
+                              </FormControl>
+                              <FormControl isRequired>
+                                <FormLabel>Starting Address</FormLabel>
+                                <Input name="address" isRequired />
+                              </FormControl>
+                              <FormControl isRequired>
+                                <FormLabel>Quantity</FormLabel>
+                                <Input name="quantity" isRequired />
+                              </FormControl>
+                          </HStack>
+                          <Button colorScheme="blue" type="submit">Submit</Button>
+                          </form>
+
+                          <Divider color="white" my="20px" w="800px"/>
+
                         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
                         {products && products.map(product => 
                         {
