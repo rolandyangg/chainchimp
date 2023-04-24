@@ -6,6 +6,10 @@ import {
   VStack,
   Image,
   Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Button
 } from '@chakra-ui/react';
 import Footer from '../components/footer.js'
 import Navbar from '../components/navbar.js'
@@ -26,8 +30,27 @@ export default function Home() {
           </VStack>
           <VStack align="start" fontSize="xl" my="10px" flexWrap="nowrap">
               <Center mx="20px" my="10px">
-                  <Image alt='Roland Yang' src="supplychainlogo2.png" borderRadius="lg" maxW="325px"/>
+                  <Image src="supplychainlogo2.png" borderRadius="lg" maxW="325px"/>
               </Center>
+          </VStack>
+        </Flex>
+      </Center>
+
+    {/** TRACKER */}
+    <Center justify="center" p={{base: "50px", mdd: "100px"}} backgroundColor="#131313" position="block" >
+        <Flex direction={{ base: "column", md: "row"}} justify="space-between" align="center" flexWarp="wrap" w="100%" maxW="800px">
+          <VStack align="start" fontSize="xl" my="10px" flexWrap="nowrap">
+            <form>
+                <FormControl py="2" minW="400px">
+                    <FormLabel>ID</FormLabel>
+                    <Input/>
+                </FormControl>
+                <Button mt="4" colorScheme="blue" size="md" w="full" loadingText="Logging In">View History</Button>
+              </form>
+          </VStack>
+          <VStack my="150px">
+            <Heading>Track Your Product</Heading>
+            <Text fontSize="xl">Enter your product ID to open its history</Text>
           </VStack>
         </Flex>
       </Center>
