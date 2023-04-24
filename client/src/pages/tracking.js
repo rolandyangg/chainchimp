@@ -142,7 +142,7 @@ export default function Tracking() {
                           <Text fontSize="lg">ID: {id} </Text>
                           <Text fontSize="lg">Quantity: {parseInt(product[3]._hex, 16)} </Text> 
                           <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
-                          <Text fontSize="lg">Current Owner: <Link isExternal href={"https://sepolia.etherscan.io/address/" + product[5].toString()}>{product[5]}</Link></Text>
+                          <Text fontSize="lg">Current Owner: <Link isExternal href={"https://sepolia.etherscan.io/address/" + product[5].toString()}>{product[6] + " (" + product[5] + ")"}</Link></Text>
                           <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
                       </VStack>
                   </Box>
@@ -162,8 +162,8 @@ export default function Tracking() {
                   (transactionHistory[0]) ? (
                     transactionHistory.map(history =>
                           {
-                            return <TransactionCard id={history[0]._hex} sender={history.sender}
-                            sender_role={""} receiver={history.receiver} receiver_role={""} price={history.price} 
+                            return <TransactionCard id={history[0]._hex} sender={history.sendername + " (" + history.sender + ")"}
+                            sender_role={NUM_TO_STAGE.get(history.senderrole)} receiver={history.receivername + " (" + history.receiver + ")"} reciever_role={NUM_TO_STAGE.get(history[10])} price={history.price} 
                             memo={history.memo} timestamp={history.timestamp._hex}/>
                           })
                     // <TransactionCard id={id} sender={transactionHistory[0].sender} 

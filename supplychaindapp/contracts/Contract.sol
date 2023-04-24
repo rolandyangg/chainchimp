@@ -21,6 +21,11 @@ contract SupplyChain {
         uint price;
         string memo;
         uint timestamp;
+
+        string sendername;
+        string receivername;
+        STAGE senderrole;
+        STAGE receiverrole;
     }
 
     // Define a struct to represent a shipment
@@ -32,6 +37,7 @@ contract SupplyChain {
         // Put in a tracking number, we can see everything about the product 
         uint[] history; // Transaction ID history
         address currentowner;
+        string ownername;
     }
 
     struct Party {
@@ -77,6 +83,7 @@ contract SupplyChain {
         product.stage = STAGE.ChainManager;
         product.item = _item;
         product.currentowner = _wallet;
+        product.ownername = parties[_wallet].name;
         parties[_wallet].productIDs.push(_id);
         
         return _id;        
@@ -96,6 +103,10 @@ contract SupplyChain {
     }
 
     function createTransaction(address _sender, address _receiver, uint _productID, uint _price, string memory _memo) public returns (uint) {
+        // require(STAGE_TO_NUM[parties[_receiver].role] == STAGE_TO_NUM[parties[_sender].role] + 1); // make sure the transactions go in order
+        if (STAGE_TO_NUM[parties[_receiver].role] != (STAGE_TO_NUM[parties[_sender].role] + 1))
+            return 0;
+
         uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender))) % 10000000000;
 
         Transaction storage transaction = transactions[_id];
@@ -107,6 +118,10 @@ contract SupplyChain {
         transaction.price = _price;
         transaction.memo = _memo;
         transaction.timestamp = block.timestamp; // convert unix timestamp to actual time https://www.unixtimestamp.com/
+        transaction.sendername = parties[_sender].name;
+        transaction.receivername = parties[_receiver].name;
+        transaction.senderrole = parties[_sender].role;
+        transaction.receiverrole = parties[_receiver].role;
         
         products[_productID].history.push(_id); // add transaction ID to transaction history
         
@@ -116,7 +131,7 @@ contract SupplyChain {
 
         giveProduct(_receiver, _productID);
 
-        return _id;
+        return 1;
     }
     
     function isNewParty(address _id) public view returns (bool) {

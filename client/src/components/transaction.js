@@ -30,13 +30,20 @@ export default function Transaction() {
   const sdk = useSDK();
   const { isLoading, contract } = useContract(CONTRACT_ID);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
       event.preventDefault();
       const formData = new FormData(event.target);
       const data = Object.fromEntries(formData.entries());
 
-      sdk.wallet.transfer(data.receiver, data.price);
-      contract.call("createTransaction", [address, data.receiver, data.productID, web3.utils.toWei(data.price, 'ether'), data.memo])
+      
+      const res = await contract.call("createTransaction", [address, data.receiver, data.productID, web3.utils.toWei(data.price, 'ether'), data.memo]);
+      console.log(res);
+      if (parseInt(res[0]._hex, 16) == 1)
+      {
+        console.log("Valid Transaction");
+        sdk.wallet.transfer(data.receiver, data.price);
+      } else
+      console.log("Error! Transaction not in correct order!");
     }
   return (
     <>
