@@ -51,7 +51,6 @@ struct Transaction {
     }
  */
 
-<<<<<<< HEAD
 function TransactionCard({id, sender, receiver, sender_role, reciever_role, price, memo, timestamp, sendername, receivername}) {
   function timeConverter(UNIX_timestamp){
     var a = new Date(UNIX_timestamp * 1000);
@@ -67,26 +66,15 @@ function TransactionCard({id, sender, receiver, sender_role, reciever_role, pric
   }  
   
   return (
-=======
-function TransactionCard({id, sender, receiver, sender_role, reciever_role, price, memo, timestamp}) {
-    return (
->>>>>>> 36b9cf7fbc163e0fb90cde46c8e0ccaccea74520
         <>
         <Card mx="10px" my="30px" overflow='hidden' variant='outline' maxW="90%" bgColor="blackAlpha.300" color="white">
             <CardBody mt="-7px">
                 <Flex align="center" justify="space-between" w="100%">
                     <VStack align="left">
-<<<<<<< HEAD
                         <Text>Transaction ID: {id}</Text>
                         <Text>Sender ({sender_role}): {sendername} (<Link isExternal href={"https://sepolia.etherscan.io/address/" + sender.toString()}>{sender}</Link>)</Text>
                         <Text>Receiver ({reciever_role}): {receivername} (<Link isExternal href={"https://sepolia.etherscan.io/address/" + receiver.toString()}>{receiver}</Link>)</Text>
                         <Text>Timestamp: {timeConverter(timestamp)}</Text>
-=======
-                        <Text>ID: {id}</Text>
-                        <Text>Sender ({sender_role}): {sender}</Text>
-                        <Text>Receiver ({reciever_role}): {receiver}</Text>
-                        <Text>Timestamp: {timestamp}</Text>
->>>>>>> 36b9cf7fbc163e0fb90cde46c8e0ccaccea74520
                     </VStack>
                     <Box m="30px">
                     <Text>Memo: {memo}</Text>

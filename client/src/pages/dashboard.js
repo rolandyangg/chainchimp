@@ -88,7 +88,7 @@ export default function Dashboard() {
                   <Tabs align="center" minW="1000px">
                     <TabList isFitted mb='1em'>
                       <Tab>Active Products</Tab>
-                      {isChainManager && <Tab>Manage My Supply Chain</Tab>}
+                      {<Tab>Manage My Supply Chain</Tab>}
                       <Tab>Make Transaction</Tab>
                     </TabList>
                     <Divider/>
@@ -100,7 +100,7 @@ export default function Dashboard() {
 
                       </TabPanel>
                       
-                      {isChainManager && 
+                      {
                         <TabPanel>
 
                           {/* Manage My Supply Chain */}
