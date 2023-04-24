@@ -45,7 +45,26 @@ export default function Dashboard() {
   const address = useAddress();
   const { isLoading, contract } = useContract(CONTRACT_ID);
   const [products, setProducts] = useState();
+  const [party, getParty] = useState();
+  const [isChainManager, setIsChainManager] = useState();
 
+  useEffect(() => {
+    async function fetchData() {
+      if(address && !isLoading) // logged in
+      {
+        getParty(await contract.call('getParty', [address]));
+      }
+    }
+  
+    fetchData();
+  }, [address, contract, isLoading]);
+
+  useEffect(() => {
+    if(party) setIsChainManager(party[3] == 0)
+    // console.log(party[3])
+  }, [party]);
+
+  
   // useEffect(() => {
   //   async function fetchData() {
   //     if(address && !isLoading) // logged in
@@ -69,7 +88,7 @@ export default function Dashboard() {
                   <Tabs align="center" minW="1000px">
                     <TabList isFitted mb='1em'>
                       <Tab>Active Products</Tab>
-                      <Tab>Manage My Supply Chain</Tab>
+                      {isChainManager && <Tab>Manage My Supply Chain</Tab>}
                       <Tab>Make Transaction</Tab>
                     </TabList>
                     <Divider/>
@@ -80,12 +99,15 @@ export default function Dashboard() {
                         <ActiveProducts/>
 
                       </TabPanel>
-                      <TabPanel>
+                      
+                      {isChainManager && 
+                        <TabPanel>
 
-                        {/* Manage My Supply Chain */}
-                        <ManageChain/>
+                          {/* Manage My Supply Chain */}
+                          <ManageChain/>
 
-                      </TabPanel>
+                        </TabPanel>
+                      }
                       <TabPanel>
 
                         {/* Track Product History */}

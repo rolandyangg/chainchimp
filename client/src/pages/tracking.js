@@ -51,7 +51,7 @@ struct Transaction {
     }
  */
 
-function TransactionCard({id, sender, receiver, sender_role, reciever_role, price, memo, timestamp}) {
+function TransactionCard({id, sender, receiver, sender_role, reciever_role, price, memo, timestamp, sendername, receivername}) {
   function timeConverter(UNIX_timestamp){
     var a = new Date(UNIX_timestamp * 1000);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -71,9 +71,9 @@ function TransactionCard({id, sender, receiver, sender_role, reciever_role, pric
             <CardBody mt="-7px">
                 <Flex align="center" justify="space-between" w="100%">
                     <VStack align="left">
-                        <Text>ID: {id}</Text>
-                        <Text>Sender ({sender_role}): <Link isExternal href={"https://sepolia.etherscan.io/address/" + sender.toString()}>{sender}</Link></Text>
-                        <Text>Receiver ({reciever_role}): <Link isExternal href={"https://sepolia.etherscan.io/address/" + receiver.toString()}>{receiver}</Link></Text>
+                        <Text>Transaction ID: {id}</Text>
+                        <Text>Sender ({sender_role}): {sendername} (<Link isExternal href={"https://sepolia.etherscan.io/address/" + sender.toString()}>{sender}</Link>)</Text>
+                        <Text>Receiver ({reciever_role}): {receivername} (<Link isExternal href={"https://sepolia.etherscan.io/address/" + receiver.toString()}>{receiver}</Link>)</Text>
                         <Text>Timestamp: {timeConverter(timestamp)}</Text>
                     </VStack>
                     <Box m="30px">
@@ -162,9 +162,9 @@ export default function Tracking() {
                   (transactionHistory[0]) ? (
                     transactionHistory.map(history =>
                           {
-                            return <TransactionCard id={history[0]._hex} sender={history.sendername + " (" + history.sender + ")"}
-                            sender_role={NUM_TO_STAGE.get(history.senderrole)} receiver={history.receivername + " (" + history.receiver + ")"} reciever_role={NUM_TO_STAGE.get(history[10])} price={history.price} 
-                            memo={history.memo} timestamp={history.timestamp._hex}/>
+                            return <TransactionCard id={history[0]._hex} sender={ history.sender}
+                            sender_role={NUM_TO_STAGE.get(history.senderrole)} receiver={history.receiver} reciever_role={NUM_TO_STAGE.get(history[10])} price={history.price} 
+                            memo={history.memo} timestamp={history.timestamp._hex} sendername = {history.sendername} receivername={history.receivername}/>
                           })
                     // <TransactionCard id={id} sender={transactionHistory[0].sender} 
                     //                   sender_role={NUM_TO_STAGE.get(product[1]-1)} 

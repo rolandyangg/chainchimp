@@ -131,7 +131,7 @@ export default function ManageChain() {
         <ChainTable party_name="Manufacturer" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Manufacturer"))}/>
         <Divider color="white" my="10px" w="800px"/>
 
-        <ChainTable party_name="Distributer" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Distributor"))}/>
+        <ChainTable party_name="Distributor" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Distributor"))}/>
         <Divider color="white" my="10px" w="800px"/>
 
         <ChainTable party_name="Consumer" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Consumer"))}/>
