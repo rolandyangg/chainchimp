@@ -102,14 +102,14 @@ contract SupplyChain {
     }
 
     // No parameters | Returns list of parties (but why???)
-    function getAllParties() public view returns (Party[] memory, uint) {
+    function getAllParties() public view returns (Party[] memory) {
         uint length = partyAddresses.length;
         Party[] memory allParties = new Party[](length);
 
         for (uint i = 0; i < length; i++) {
             allParties[i] = parties[partyAddresses[i]];
         }
-        return (allParties, length);
+        return allParties;
     }
 
     // Input: Product ID | Returns product
@@ -118,7 +118,7 @@ contract SupplyChain {
     }
 
     // Input: party wallet ID | Returns all products under an address, # of products
-    function getAllProducts(address _wallet) public view returns (Product[] memory, uint) {
+    function getAllProducts(address _wallet) public view returns (Product[] memory) {
         Party memory party = parties[_wallet];
         uint length = party.productIDs.length;
         Product[] memory allProducts = new Product[](length);
@@ -128,10 +128,10 @@ contract SupplyChain {
 
             allProducts[i] = product;
         }
-        return (allProducts, length);
+        return allProducts;
     }
     
-    function getTransactionHistory(uint _id) public view returns (Transaction[] memory, uint) {
+    function getTransactionHistory(uint _id) public view returns (Transaction[] memory) {
         Product memory product = products[_id];
         uint length = product.history.length;
         Transaction[] memory transactionHistory = new Transaction[](length);
@@ -141,6 +141,6 @@ contract SupplyChain {
 
             transactionHistory[i] = transaction;
         }
-        return (transactionHistory, length);
+        return transactionHistory;
     }
 }
