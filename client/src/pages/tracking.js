@@ -103,13 +103,13 @@ export default function Tracking() {
   }, [address, contract, isLoading]);
 
   useEffect(() => {
-    console.log(transactionHistory[0].timestamp)
+    console.log(transactionHistory)
   }, [transactionHistory])
 
 
-  // useEffect(() => {
-  //   console.log(product)
-  // }, [product])
+  useEffect(() => {
+    console.log(product)
+  }, [product])
 
   return (
     <>
@@ -119,16 +119,21 @@ export default function Tracking() {
             {/* PRODUCT MAIN INFORMATION */}
                 <Heading py="10px" fontSize="2xl">Product Information</Heading>
             {product &&
-                <Box align="left">
-                    <VStack align="left" p="20px" minW={{base: "400px", md: "700px"}}>
-                        <Text fontSize="lg">Name: {product[2]} </Text>
-                        <Text fontSize="lg">ID: {id} </Text>
-                        <Text fontSize="lg">Quantity: {product[3]._hex} </Text>
-                        <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
-                        <Text fontSize="lg">Current Owner: </Text>
-                        <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
-                    </VStack>
-                </Box>
+              <div>
+                {product.name ? 
+                  <Box align="left">
+                      <VStack align="left" p="20px" minW={{base: "400px", md: "700px"}}>
+                          <Text fontSize="lg">Name: {product[2]} </Text>
+                          <Text fontSize="lg">ID: {id} </Text>
+                          <Text fontSize="lg">Quantity: {product[3]._hex} </Text>
+                          <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
+                          <Text fontSize="lg">Current Owner: </Text>
+                          <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
+                      </VStack>
+                  </Box>
+                  : <div> invalid product id </div>
+                }
+              </div>
             }
                 
             <Divider color="white" my="60px" w={{base: "400px", md: "700px"}}/>
@@ -137,14 +142,20 @@ export default function Tracking() {
             <Heading py="20px" fontSize="2xl">Transaction History</Heading>
 
             {transactionHistory && 
-              <TransactionCard id={id} sender={transactionHistory[0].sender} 
-                                sender_role={NUM_TO_STAGE.get(product[1]-1)} 
-                                receiver={transactionHistory[0].receiver} 
-                                reciever_role={NUM_TO_STAGE.get(product[1])} 
-                                price={transactionHistory[0].price}
-                                memo={transactionHistory[0].memo}
-                                timestamp={transactionHistory[0].timestamp._hex}
-                                />
+              <div>
+                {
+                  (transactionHistory[0])
+                    ?  <TransactionCard id={id} sender={transactionHistory[0].sender} 
+                                      sender_role={NUM_TO_STAGE.get(product[1]-1)} 
+                                      receiver={transactionHistory[0].receiver} 
+                                      reciever_role={NUM_TO_STAGE.get(product[1])} 
+                                      price={transactionHistory[0].price}
+                                      memo={transactionHistory[0].memo}
+                                      timestamp={transactionHistory[0].timestamp._hex}
+                                      />
+                    : <div> no valid transactions </div>
+                }
+              </div>
             }
 
             </VStack>
