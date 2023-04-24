@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import Footer from '../components/footer.js'
 import Navbar from '../components/navbar.js'
+import { Web3Button } from '@thirdweb-dev/react';
 
 
 export default function Home() {

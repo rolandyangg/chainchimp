@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Center,
   Card,
@@ -38,8 +38,31 @@ import ProductCard from '../components/dashboardproduct.js'
 // Panels
 import ManageChain from '../components/managechain.js'
 import Transaction from '../components/transaction.js'
+import { useAddress, useContract } from '@thirdweb-dev/react';
+
+const CONTRACT_ID = "0xBFdd19b0f4bd2DC8e8AA161CC43F1c8e5e00f3b9";
 
 export default function Dashboard() {
+  const address = useAddress();
+  const { isLoading, contract } = useContract(process.env.CONTRACT_ID);
+  const [products, setProducts] = useState();
+  console.log(products)
+
+  useEffect(() => {
+    async function fetchData() {
+      if(address && !isLoading) // logged in
+      {
+        setProducts(await contract.call('getAllProducts', [address]));
+        // setProducts([
+        //   {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
+        //   {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
+        // ])
+      }
+    }
+  
+    fetchData();
+  }, [address, contract, isLoading]);
+
   return (
     <>
       <Navbar/>
@@ -58,9 +81,15 @@ export default function Dashboard() {
                         {/* Active Products */}
                         <Box justify="center" py="10px" fontSize="xl">
                         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
-                          <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
+                        {products && products.map(product => 
+                        {
+                          { console.log(product); }
+                          return <ProductCard name={product.name} id={product.id} stage={product.stage} party={product.party} progress="40"/>
+                        }
+                        )}
+                          {/* <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
                           <ProductCard name="T-Shirts" id="13" stage="Consumer" party="20301203102xasod02" progress="100"/>
-                          <ProductCard name="Beds" id="3" stage="Supplier" party="23020302303013kkk" progress="60"/>
+                          <ProductCard name="Beds" id="3" stage="Supplier" party="23020302303013kkk" progress="60"/> */}
                         </Box>
                       </TabPanel>
                       <TabPanel>
