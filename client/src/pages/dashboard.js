@@ -103,9 +103,8 @@ export default function Dashboard() {
                         {products && products.map(product => 
                         {
                           { console.log("mapping", product); }
-                          return <ProductCard key={product.id} name={product[2]} id={product.id} stage={product.stage} party={product.party} progress="40"/>
-                        }
-                        )}
+                          return <ProductCard name={product[2]} id={product[0]._hex} stage={product[1]} party={product[1]} progress="40"/>
+                        })}
                           {/* <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
                           <ProductCard name="T-Shirts" id="13" stage="Consumer" party="20301203102xasod02" progress="100"/>
                           <ProductCard name="Beds" id="3" stage="Supplier" party="23020302303013kkk" progress="60"/> */}
