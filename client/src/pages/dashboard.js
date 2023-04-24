@@ -45,7 +45,6 @@ export default function Dashboard() {
   const address = useAddress();
   const { isLoading, contract } = useContract(CONTRACT_ID);
   const [products, setProducts] = useState();
-  console.log(products)
 
   useEffect(() => {
     async function fetchData() {

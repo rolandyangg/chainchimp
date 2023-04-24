@@ -31,6 +31,8 @@ import {
   FormControl,
   Select,
 } from '@chakra-ui/react';
+import { useAddress, useContract } from '@thirdweb-dev/react';
+import { CONTRACT_ID, STAGE, STAGE_TO_NUM } from '../constants';
 
 function ChainTable({party_name, party_enum}) {
     return (
@@ -57,35 +59,46 @@ function ChainTable({party_name, party_enum}) {
 }
 
 export default function ManageChain() {
+    const address = useAddress();
+    const { isLoading, contract } = useContract(CONTRACT_ID);
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+        contract.call("createParty", [data.name, data.location, STAGE_TO_NUM.get(data.type), address])
+      }
+
   return (
     <>
-        <form>
-        <HStack>
-            <FormControl py="2">
-            <FormLabel>Type</FormLabel>
-            <Select>
-                <option>Raw Materials</option>
-                <option>Supplier</option>
-                <option>Manufacturer</option>
-                <option>Distributor</option>
-                <option>Consumer</option>
-            </Select>
-            </FormControl>
-            <FormControl>
-            <FormLabel>Name</FormLabel>
-            <Input />
-            </FormControl>
-            <FormControl>
-            <FormLabel>Address</FormLabel>
-            <Input />
-            </FormControl>
-            <FormControl>
-            <FormLabel>Location</FormLabel>
-            <Input />
-            </FormControl>
-        </HStack>
-        <Button colorScheme="blue">Submit</Button>
-        </form>
+        <form onSubmit={handleSubmit}>
+            <HStack>
+                <FormControl py="2" isRequired>
+                <FormLabel>Type</FormLabel>
+                <Select name="type" isRequired>
+                    <option>Raw Materials</option>
+                    <option>Supplier</option>
+                    <option>Manufacturer</option>
+                    <option>Distributor</option>
+                    <option>Consumer</option>
+                </Select>
+                </FormControl>
+                <FormControl isRequired>
+                <FormLabel>Name</FormLabel>
+                <Input name="name" isRequired />
+                </FormControl>
+                <FormControl isRequired>
+                <FormLabel>Address</FormLabel>
+                <Input name="address" isRequired />
+                </FormControl>
+                <FormControl isRequired>
+                <FormLabel>Location</FormLabel>
+                <Input name="location" isRequired />
+                </FormControl>
+            </HStack>
+            <Button colorScheme="blue" type="submit">Submit</Button>
+            </form>
+
 
         <Divider color="white" my="10px" w="800px"/>
 
