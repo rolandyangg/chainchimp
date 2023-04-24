@@ -31,6 +31,7 @@ contract SupplyChain {
         uint quantity;
         // Put in a tracking number, we can see everything about the product 
         uint[] history; // Transaction ID history
+        address currentowner;
     }
 
     struct Party {
@@ -75,6 +76,7 @@ contract SupplyChain {
         product.quantity = _quantity;
         product.stage = STAGE.ChainManager;
         product.item = _item;
+        product.currentowner = _wallet;
         parties[_wallet].productIDs.push(_id);
         
         return _id;        
@@ -108,7 +110,9 @@ contract SupplyChain {
         
         products[_productID].history.push(_id); // add transaction ID to transaction history
         
-        NUM_TO_STAGE[STAGE_TO_NUM[products[_productID].stage]++];
+        // NUM_TO_STAGE[STAGE_TO_NUM[products[_productID].stage]++];
+        products[_productID].currentowner = _receiver; // Set the current owner of the product to whoever received it
+        products[_productID].stage = parties[_receiver].role; // Set the current stage to whatever role the party is
 
         giveProduct(_receiver, _productID);
 
