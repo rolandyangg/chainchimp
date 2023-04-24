@@ -30,6 +30,7 @@ import {
   Td,
   FormControl,
   Select,
+  NumberInputField,
 } from '@chakra-ui/react';
 import ProductCard from '../components/dashboardproduct.js'
 
@@ -43,37 +44,50 @@ export default function ActiveProducts() {
   const { isLoading, contract } = useContract(CONTRACT_ID);
   const [products, setProducts] = useState();
 
-  useEffect(() => {
-    async function fetchData() {
-      if(address && !isLoading) // logged in
-      {
-        setProducts(await contract.call('getAllProducts', [address]));
-        // setProducts([
-        //   {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
-        //   {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
-        // ])
-      }
+  // var listener = contract.events.ListenToAll((ContractEvent<object> anyEvent) => Debug.Log("Event occured: " + anyEvent.data));
+
+  // var listener = contract.events.listenToAllEvents((event) => {
+  //   console.log("test");
+  // });
+
+
+  const handleSubmit = async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
+      contract.call("createProduct", [address, data.name, data.quantity]);
     }
+
+  async function fetchData() {
+    if(address && !isLoading) // logged in
+    {
+      setProducts(await contract.call('getAllProducts', [address]));
+      // setProducts([
+      //   {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
+      //   {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
+      // ])
+    }
+  }
   
-    fetchData();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData();
+    }, 1000);
+
   }, [address, contract, isLoading]);
 
   return (
     <>
         <Box justify="center" py="10px" fontSize="xl">
-        <form>
+        <form onSubmit={handleSubmit} >
             <HStack>
                 <FormControl isRequired>
-                <FormLabel>Product Name</FormLabel>
-                <Input name="name" isRequired />
+                  <FormLabel>Product Name</FormLabel>
+                  <Input name="name" isRequired />
                 </FormControl>
                 <FormControl isRequired>
-                <FormLabel>Starting Address</FormLabel>
-                <Input name="address" isRequired />
-                </FormControl>
-                <FormControl isRequired>
-                <FormLabel>Quantity</FormLabel>
-                <Input name="quantity" isRequired />
+                  <FormLabel>Quantity</FormLabel>
+                  <Input name="quantity" isRequired />
                 </FormControl>
             </HStack>
             <Button colorScheme="blue" type="submit">Submit</Button>
@@ -84,12 +98,8 @@ export default function ActiveProducts() {
         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
         {products && products.map(product => 
         {
-            { console.log("mapping", product); }
             return <ProductCard name={product[2]} id={product[0]._hex} stage={product[1]} party={product[1]} progress="40"/>
         })}
-            {/* <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
-            <ProductCard name="T-Shirts" id="13" stage="Consumer" party="20301203102xasod02" progress="100"/>
-            <ProductCard name="Beds" id="3" stage="Supplier" party="23020302303013kkk" progress="60"/> */}
         </Box>
     </>
   );

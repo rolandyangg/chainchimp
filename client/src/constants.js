@@ -17,8 +17,4 @@ const NUM_TO_STAGE = new Map([
 export { STAGE_TO_NUM };
 export { NUM_TO_STAGE };
 
-<<<<<<< HEAD
 export const CONTRACT_ID =  "0xF3C0182C290c0Ff7eb5443582Fa12BF4E15AC6Fc";
-=======
-export const CONTRACT_ID =  "0x65494DEF0DFD365a9f3d5bf48C50BdD5B92b167f";
->>>>>>> refs/remotes/origin/main
