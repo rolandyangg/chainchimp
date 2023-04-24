@@ -75,17 +75,22 @@ export default function Dashboard() {
                     <Divider/>
                     <TabPanels>
                       <TabPanel>
+
                         {/* Active Products */}
                         <ActiveProducts/>
+
                       </TabPanel>
                       <TabPanel>
+
                         {/* Manage My Supply Chain */}
                         <ManageChain/>
 
                       </TabPanel>
                       <TabPanel>
+
                         {/* Track Product History */}
                         <Transaction/>
+                        
                       </TabPanel>
                     </TabPanels>
                   </Tabs>
