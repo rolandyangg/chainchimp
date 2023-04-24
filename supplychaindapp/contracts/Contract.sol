@@ -21,6 +21,8 @@ contract SupplyChain {
         uint price;
         string memo;
         uint timestamp;
+        STAGE senderStage;
+        STAGE receiverStage;
     }
 
     // Define a struct to represent a shipment
@@ -109,11 +111,14 @@ contract SupplyChain {
         transaction.price = _price;
         transaction.memo = _memo;
         transaction.timestamp = block.timestamp; // convert unix timestamp to actual time https://www.unixtimestamp.com/
-        
+        transaction.senderStage = parties[_sender].role;
+        transaction.receiverStage = parties[_receiver].role;
+
         products[_productID].history.push(_id); // add transaction ID to transaction history
         
         // NUM_TO_STAGE[STAGE_TO_NUM[products[_productID].stage]++];
         products[_productID].currentowner = _receiver; // Set the current owner of the product to whoever received it
+        products[_productID].ownerName = parties[_receiver].name;
         products[_productID].stage = parties[_receiver].role; // Set the current stage to whatever role the party is
 
         giveProduct(_receiver, _productID);
