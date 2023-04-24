@@ -10,8 +10,7 @@ import {
   HStack,
 } from '@chakra-ui/react';
 import { ConnectWallet, useAddress, useContract, useContractWrite } from '@thirdweb-dev/react';
-
-const CONTRACT_ID = '0xC1ACcc3Ce431a28EC487bf84DbD37A5caBf25834';
+import { CONTRACT_ID } from '../constants';
 
 export default function Navbar() {
   const address = useAddress();
@@ -20,6 +19,7 @@ export default function Navbar() {
   useEffect(() => {
     async function fetchData() {
       console.log(address, isLoading);
+      console.log("contract", "0xBFdd19b0f4bd2DC8e8AA161CC43F1c8e5e00f3b9");
       if(address && !isLoading) // logged in
       {
         const isNewParty = await contract.call('isNewParty', [address])

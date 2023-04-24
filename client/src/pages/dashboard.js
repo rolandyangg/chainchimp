@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Center,
   Card,
@@ -37,8 +37,32 @@ import ProductCard from '../components/dashboardproduct.js'
 
 // Panels
 import ManageChain from '../components/managechain.js'
+import Transaction from '../components/transaction.js'
+import { useAddress, useContract } from '@thirdweb-dev/react';
+
+import { CONTRACT_ID } from '../constants.js';
 
 export default function Dashboard() {
+  const address = useAddress();
+  const { isLoading, contract } = useContract(CONTRACT_ID);
+  const [products, setProducts] = useState();
+  console.log(products)
+
+  useEffect(() => {
+    async function fetchData() {
+      if(address && !isLoading) // logged in
+      {
+        setProducts(await contract.call('getAllProducts', [address]));
+        // setProducts([
+        //   {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
+        //   {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
+        // ])
+      }
+    }
+  
+    fetchData();
+  }, [address, contract, isLoading]);
+
   return (
     <>
       <Navbar/>
@@ -49,7 +73,7 @@ export default function Dashboard() {
                     <TabList isFitted mb='1em'>
                       <Tab>Active Products</Tab>
                       <Tab>Manage My Supply Chain</Tab>
-                      <Tab>Track Product History</Tab>
+                      <Tab>Make Transaction</Tab>
                     </TabList>
                     <Divider/>
                     <TabPanels>
@@ -57,9 +81,15 @@ export default function Dashboard() {
                         {/* Active Products */}
                         <Box justify="center" py="10px" fontSize="xl">
                         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
-                          <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
+                        {products && products.map(product => 
+                        {
+                          { console.log("mapping", product); }
+                          return <ProductCard key={product.id} name={product[2]} id={product.id} stage={product.stage} party={product.party} progress="40"/>
+                        }
+                        )}
+                          {/* <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
                           <ProductCard name="T-Shirts" id="13" stage="Consumer" party="20301203102xasod02" progress="100"/>
-                          <ProductCard name="Beds" id="3" stage="Supplier" party="23020302303013kkk" progress="60"/>
+                          <ProductCard name="Beds" id="3" stage="Supplier" party="23020302303013kkk" progress="60"/> */}
                         </Box>
                       </TabPanel>
                       <TabPanel>
@@ -69,6 +99,7 @@ export default function Dashboard() {
                       </TabPanel>
                       <TabPanel>
                         {/* Track Product History */}
+                        <Transaction/>
                       </TabPanel>
                     </TabPanels>
                   </Tabs>
