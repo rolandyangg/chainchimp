@@ -37,7 +37,6 @@ import ProductCard from '../components/dashboardproduct.js'
 
 // Panels
 import ManageChain from '../components/managechain.js'
-import Transaction from '../components/transaction.js'
 import { useAddress, useContract } from '@thirdweb-dev/react';
 
 import { CONTRACT_ID } from '../constants.js';
@@ -73,7 +72,7 @@ export default function Dashboard() {
                     <TabList isFitted mb='1em'>
                       <Tab>Active Products</Tab>
                       <Tab>Manage My Supply Chain</Tab>
-                      <Tab>Make Transaction</Tab>
+                      <Tab>Track Product History</Tab>
                     </TabList>
                     <Divider/>
                     <TabPanels>
@@ -83,8 +82,8 @@ export default function Dashboard() {
                         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
                         {products && products.map(product => 
                         {
-                          { console.log("mapping", product); }
-                          return <ProductCard key={product.id} name={product[2]} id={product.id} stage={product.stage} party={product.party} progress="40"/>
+                          // { console.log("mapping", product); }
+                          return <ProductCard name={product[2]} id={product[0]._hex} stage={product[1]} party="placeholder" progress="40"/>
                         }
                         )}
                           {/* <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
@@ -99,7 +98,6 @@ export default function Dashboard() {
                       </TabPanel>
                       <TabPanel>
                         {/* Track Product History */}
-                        <Transaction/>
                       </TabPanel>
                     </TabPanels>
                   </Tabs>
