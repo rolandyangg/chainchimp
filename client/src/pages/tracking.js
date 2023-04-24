@@ -120,7 +120,7 @@ export default function Tracking() {
                 <Heading py="10px" fontSize="2xl">Product Information</Heading>
             {product &&
               <div>
-                {product.name ? 
+                {product[2] ? 
                   <Box align="left">
                       <VStack align="left" p="20px" minW={{base: "400px", md: "700px"}}>
                           <Text fontSize="lg">Name: {product[2]} </Text>
