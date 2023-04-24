@@ -47,7 +47,7 @@ contract SupplyChain {
     address[] partyAddresses;
 
     // Input: product name, quantity | Returns item ID
-    function createProduct(string memory _item, uint _quantity) public returns (uint) {
+    function createProduct(address _wallet, string memory _item, uint _quantity) public returns (uint) {
         uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender)));
         Product storage product = products[_id];
         // require(some condition)
@@ -55,6 +55,7 @@ contract SupplyChain {
         product.quantity = _quantity;
         product.stage = STAGE.Raw_Material;
         product.item = _item;
+        parties[_wallet].productIDs.push(_id);
         
         return _id;        
     }
@@ -72,7 +73,7 @@ contract SupplyChain {
         party.location = _location;
     }
 
-    function createTransaction(address _sender, address payable _receiver, uint _productID, uint _price, string memory _memo) public payable returns (uint) {
+    function createTransaction(address _sender, address _receiver, uint _productID, uint _price, string memory _memo) public returns (uint) {
         uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender)));
 
         Transaction storage transaction = transactions[_id];
@@ -84,8 +85,6 @@ contract SupplyChain {
         transaction.price = _price;
         transaction.memo = _memo;
         transaction.timestamp = block.timestamp; // convert unix timestamp to actual time https://www.unixtimestamp.com/
-
-        _receiver.transfer(_price); // send ETH
 
         products[_productID].history.push(_id); // add transaction ID to transaction history
 
