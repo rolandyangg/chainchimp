@@ -32,6 +32,7 @@ contract SupplyChain {
         // Put in a tracking number, we can see everything about the product 
         uint[] history; // Transaction ID history
         address currentowner;
+        string ownerName;
     }
 
     struct Party {
@@ -48,24 +49,24 @@ contract SupplyChain {
 
     address[] partyAddresses;
 
-    mapping(STAGE => uint256) public STAGE_TO_NUM;
-    mapping(uint256 => STAGE) public NUM_TO_STAGE;
+    // mapping(STAGE => uint256) public STAGE_TO_NUM;
+    // mapping(uint256 => STAGE) public NUM_TO_STAGE;
     
-    constructor() {
-    // Initialize the mappings in the constructor
-    STAGE_TO_NUM[STAGE.ChainManager] = 0;
-    STAGE_TO_NUM[STAGE.Raw_Material] = 1;
-    STAGE_TO_NUM[STAGE.Manufacturer] = 2;
-    STAGE_TO_NUM[STAGE.Distributor] = 3;
-    STAGE_TO_NUM[STAGE.Retailer] = 4;
-    STAGE_TO_NUM[STAGE.Consumer] = 5;
+    // constructor() {
+    // // Initialize the mappings in the constructor
+    // STAGE_TO_NUM[STAGE.ChainManager] = 0;
+    // STAGE_TO_NUM[STAGE.Raw_Material] = 1;
+    // STAGE_TO_NUM[STAGE.Manufacturer] = 2;
+    // STAGE_TO_NUM[STAGE.Distributor] = 3;
+    // STAGE_TO_NUM[STAGE.Retailer] = 4;
+    // STAGE_TO_NUM[STAGE.Consumer] = 5;
 
-    NUM_TO_STAGE[1] = STAGE.Raw_Material;
-    NUM_TO_STAGE[2] = STAGE.Manufacturer;
-    NUM_TO_STAGE[3] = STAGE.Distributor;
-    NUM_TO_STAGE[4] = STAGE.Retailer;
-    NUM_TO_STAGE[5] = STAGE.Consumer;
-    }
+    // NUM_TO_STAGE[1] = STAGE.Raw_Material;
+    // NUM_TO_STAGE[2] = STAGE.Manufacturer;
+    // NUM_TO_STAGE[3] = STAGE.Distributor;
+    // NUM_TO_STAGE[4] = STAGE.Retailer;
+    // NUM_TO_STAGE[5] = STAGE.Consumer;
+    // }
 
     // Input: product name, quantity | Returns item ID
     function createProduct(address _wallet, string memory _item, uint _quantity) public returns (uint) {
@@ -77,6 +78,7 @@ contract SupplyChain {
         product.stage = STAGE.ChainManager;
         product.item = _item;
         product.currentowner = _wallet;
+        product.ownerName = parties[_wallet].name;
         parties[_wallet].productIDs.push(_id);
         
         return _id;        
