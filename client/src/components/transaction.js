@@ -32,6 +32,9 @@ import {
   FormControl,
   Select,
 } from '@chakra-ui/react';
+import { useAddress, useContract, useSDK } from '@thirdweb-dev/react';
+import { CONTRACT_ID, STAGE, STAGE_TO_NUM } from '../constants';
+import web3 from 'web3';
 
 /**
  * 
@@ -47,27 +50,39 @@ import {
  */
 
 export default function Transaction() {
+  const address = useAddress();
+  const sdk = useSDK();
+  const { isLoading, contract } = useContract(CONTRACT_ID);
+
+  function handleSubmit(event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
+
+      sdk.wallet.transfer(data.receiver, data.price);
+      contract.call("createTransaction", [address, data.receiver, data.productID, web3.utils.toWei(data.price, 'ether'), data.memo])
+    }
   return (
     <>
                 <Heading m="7" size="lg" textAlign="center">Make Transaction</Heading>
                 
                 <Divider/>
-                <form>
-                    <FormControl py="2" minW="700px">
+                <form onSubmit={handleSubmit}>
+                    <FormControl py="2" minW="700px" isRequired>
                         <FormLabel>Recieving Address</FormLabel>
-                        <Input/>
+                        <Input name="receiver" isRequired />
                     </FormControl>
-                    <FormControl py="2">
+                    <FormControl py="2" isRequired>
                         <FormLabel>Product ID</FormLabel>
-                        <Input />
+                        <Input name="productID" isRequired />
                     </FormControl>
-                    <FormControl py="2">
-                        <FormLabel>Price</FormLabel>
-                        <Input />
+                    <FormControl py="2" isRequired>
+                        <FormLabel>Price (ETH)</FormLabel>
+                        <Input name="price" isRequired />
                     </FormControl>
                     <FormControl py="2">
                         <FormLabel>Memo</FormLabel>
-                        <Textarea />
+                        <Textarea name="memo" />
                     </FormControl>
                     <Button mt="4" colorScheme="blue" type="submit" size="md" w="full" loadingText="Logging In">Confirm Transaction</Button>
                 </form>
