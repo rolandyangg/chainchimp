@@ -10,6 +10,8 @@ import {
 } from '@chakra-ui/react';
 import ProductCard from '../components/dashboardproduct.js'
 
+import { NUM_TO_STAGE } from '../constants.js'
+
 // Panels
 import { useAddress, useContract } from '@thirdweb-dev/react';
 
@@ -42,6 +44,7 @@ export default function ActiveProducts() {
       //   {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
       //   {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
       // ])
+      console.log(products);
     }
   }
   
@@ -76,7 +79,7 @@ export default function ActiveProducts() {
         { 
           console.log(typeof product[0]._hex);
             // [id, stage, name]
-            return <ProductCard name={product[2]} id={product[0]._BigNumber} stage={product[1]} party={product[1]} progress={product[1] * 25}/>
+            return <ProductCard name={product[2]} id={product[0]._hex} stage={NUM_TO_STAGE.get(product[1])} party={NUM_TO_STAGE.get(product[1])} progress={product[1] * 25}/>
         })}
         </Box>
     </>
