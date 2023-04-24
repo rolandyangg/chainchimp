@@ -127,7 +127,7 @@ export default function Tracking() {
                           <Text fontSize="lg">ID: {id} </Text>
                           <Text fontSize="lg">Quantity: {product[3]._hex} </Text>
                           <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
-                          <Text fontSize="lg">Current Owner: </Text>
+                          <Text fontSize="lg">Current Owner: {}</Text>
                           <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
                       </VStack>
                   </Box>
