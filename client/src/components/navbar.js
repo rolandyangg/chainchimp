@@ -11,11 +11,11 @@ import {
 } from '@chakra-ui/react';
 import { ConnectWallet, useAddress, useContract, useContractWrite } from '@thirdweb-dev/react';
 
-const CONTRACT_ID = '0xC1ACcc3Ce431a28EC487bf84DbD37A5caBf25834';
+const CONTRACT_ID = '0xBFdd19b0f4bd2DC8e8AA161CC43F1c8e5e00f3b9';
 
 export default function Navbar() {
   const address = useAddress();
-  const { isLoading, contract } = useContract(CONTRACT_ID);
+  const { isLoading, contract } = useContract(process.env.CONTRACT_ID);
 
   useEffect(() => {
     async function fetchData() {

@@ -39,11 +39,11 @@ import ProductCard from '../components/dashboardproduct.js'
 import ManageChain from '../components/managechain.js'
 import { useAddress, useContract } from '@thirdweb-dev/react';
 
-const CONTRACT_ID = "0xC1ACcc3Ce431a28EC487bf84DbD37A5caBf25834";
+const CONTRACT_ID = "0xBFdd19b0f4bd2DC8e8AA161CC43F1c8e5e00f3b9";
 
 export default function Dashboard() {
   const address = useAddress();
-  const { isLoading, contract } = useContract(CONTRACT_ID);
+  const { isLoading, contract } = useContract(process.env.CONTRACT_ID);
   const [products, setProducts] = useState();
   console.log(products)
 
@@ -51,11 +51,11 @@ export default function Dashboard() {
     async function fetchData() {
       if(address && !isLoading) // logged in
       {
-        // console.log(await contract.call('getAllProducts', [address]));
-        setProducts([
-          {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
-          {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
-        ])
+        setProducts(await contract.call('getAllProducts', [address]));
+        // setProducts([
+        //   {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
+        //   {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
+        // ])
       }
     }
   
@@ -81,7 +81,10 @@ export default function Dashboard() {
                         <Box justify="center" py="10px" fontSize="xl">
                         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
                         {products && products.map(product => 
-                          <ProductCard name={product.name} id={product.id} stage={product.stage} party={product.party} progress="40"/>
+                        {
+                          { console.log(product); }
+                          return <ProductCard name={product.name} id={product.id} stage={product.stage} party={product.party} progress="40"/>
+                        }
                         )}
                           {/* <ProductCard name="Laptop" id="10" stage="Manufacturer" party="9123912931293123x1239123" progress="40"/>
                           <ProductCard name="T-Shirts" id="13" stage="Consumer" party="20301203102xasod02" progress="100"/>
