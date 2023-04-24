@@ -1,36 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Center,
-  Card,
-  CardBody,
   Box,
-  Text,
-  Flex,
-  VStack,
   Button,
   HStack,
-  Heading,
-  Progress,
   Input,
   Divider,
-  Tabs,
-  TabList,
-  Tab,
-  option,
-  TabPanels,
-  TabPanel,
   FormLabel,
-  TableContainer,
-  Table,
-  TableCaption,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
   FormControl,
-  Select,
-  NumberInputField,
 } from '@chakra-ui/react';
 import ProductCard from '../components/dashboardproduct.js'
 
@@ -98,7 +74,8 @@ export default function ActiveProducts() {
         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
         {products && products.map(product => 
         {
-            return <ProductCard name={product[2]} id={product[0]._hex} stage={product[1]} party={product[1]} progress="40"/>
+            // [id, stage, name]
+            return <ProductCard name={product[2]} id={product[0]._hex} stage={product[1]} party={product[1]} progress={product[1] * 25}/>
         })}
         </Box>
     </>
