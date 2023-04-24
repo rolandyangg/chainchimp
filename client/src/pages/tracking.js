@@ -142,7 +142,7 @@ export default function Tracking() {
                           <Text fontSize="lg">ID: {id} </Text>
                           <Text fontSize="lg">Quantity: {parseInt(product[3]._hex, 16)} </Text> 
                           <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
-                          <Text fontSize="lg">Current Owner: {}</Text>
+                          <Text fontSize="lg">Current Owner: <Link isExternal href={"https://sepolia.etherscan.io/address/" + product[5].toString()}>{product[5]}</Link></Text>
                           <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
                       </VStack>
                   </Box>
