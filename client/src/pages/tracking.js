@@ -36,7 +36,7 @@ import { useParams } from "react-router-dom"; // This is so we can grab the ID
 
 import { useAddress, useContract } from '@thirdweb-dev/react';
 
-import { CONTRACT_ID } from '../constants.js';
+import { CONTRACT_ID, NUM_TO_STAGE } from '../constants.js';
 
 /**
 struct Transaction {
@@ -75,7 +75,7 @@ function TransactionCard({id, sender, receiver, sender_role, reciever_role, pric
 export default function Tracking() {
   const address = useAddress();
   const { isLoading, contract } = useContract(CONTRACT_ID);
-  const [products, setProducts] = useState();
+  const [product, setProduct] = useState();
   
   const { id } = useParams(); // grab the product ID
 
@@ -83,16 +83,16 @@ export default function Tracking() {
     async function fetchData() {
       if(address && !isLoading) // logged in
       {
-        // setProducts(await contract.call('getAllProducts', [address]));
-        // setProducts([
-        //   {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
-        //   {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
-        // ])
+        setProduct(await contract.call('getProduct', [id]));
       }
     }
   
     fetchData();
   }, [address, contract, isLoading]);
+
+  useEffect(() => {
+    console.log(product)
+  }, [product])
 
   return (
     <>
@@ -101,16 +101,18 @@ export default function Tracking() {
 
             {/* PRODUCT MAIN INFORMATION */}
                 <Heading py="10px" fontSize="2xl">Product Information</Heading>
+            {product &&
                 <Box align="left">
                     <VStack align="left" p="20px" minW={{base: "400px", md: "700px"}}>
-                        <Text fontSize="lg">Name: </Text>
+                        <Text fontSize="lg">Name: {product[2]} </Text>
                         <Text fontSize="lg">ID: {id} </Text>
-                        <Text fontSize="lg">Quantity: </Text>
-                        <Text fontSize="lg">Stage: </Text>
+                        <Text fontSize="lg">Quantity: {product[3]._hex} </Text>
+                        <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
                         <Text fontSize="lg">Current Owner: </Text>
-                        <Progress align="left" height="16px" color="white" w="100%" value={80}/>
+                        <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
                     </VStack>
                 </Box>
+            }
                 
             <Divider color="white" my="60px" w={{base: "400px", md: "700px"}}/>
 
