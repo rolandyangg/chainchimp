@@ -96,6 +96,7 @@ export default function Tracking() {
       if(address && !isLoading) // logged in
       {
         setProduct(await contract.call('getProduct', [id]));
+        console.log(product)
       }
     }
   
@@ -118,14 +119,14 @@ export default function Tracking() {
 
             {/* PRODUCT MAIN INFORMATION */}
                 <Heading py="10px" fontSize="2xl">Product Information</Heading>
-            {product &&
+            {product && 
               <div>
-                {product.name ? 
+                {product[2] ? 
                   <Box align="left">
                       <VStack align="left" p="20px" minW={{base: "400px", md: "700px"}}>
                           <Text fontSize="lg">Name: {product[2]} </Text>
                           <Text fontSize="lg">ID: {id} </Text>
-                          <Text fontSize="lg">Quantity: {product[3]._hex} </Text>
+                          <Text fontSize="lg">Quantity: {parseInt(product[3]._hex, 16)} </Text> 
                           <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
                           <Text fontSize="lg">Current Owner: {}</Text>
                           <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
