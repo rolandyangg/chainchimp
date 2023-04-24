@@ -7,11 +7,12 @@ STAGE_TO_NUM.set("Distributor", 3);
 STAGE_TO_NUM.set("Consumer", 4);
 
 const NUM_TO_STAGE = new Map([
-    [0, "Raw Materials"],
-    [1, "Supplier"],
-    [2, "Manufacturer"],
-    [3, "Distributor"],
-    [4, "Consumer"]
+    [0, "Supply Chain Manager"]
+    [1, "Raw Materials"],
+    [2, "Supplier"],
+    [3, "Manufacturer"],
+    [4, "Distributor"],
+    [5, "Consumer"]
 ]);
 
 export { STAGE_TO_NUM };
