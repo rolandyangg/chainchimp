@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Center,
   Card,
@@ -34,7 +34,7 @@ import {
 import { useAddress, useContract } from '@thirdweb-dev/react';
 import { CONTRACT_ID, STAGE, STAGE_TO_NUM } from '../constants';
 
-function ChainTable({party_name, party_enum}) {
+function ChainTable({party_name, parties, party_enum}) {
     return (
         <>
             <TableContainer border="1px" rounded={7}>
@@ -61,6 +61,19 @@ function ChainTable({party_name, party_enum}) {
 export default function ManageChain() {
     const address = useAddress();
     const { isLoading, contract } = useContract(CONTRACT_ID);
+    const [parties, setParties] = useState();
+
+    useEffect(() => {
+        async function fetchData() {
+            if(address && !isLoading) // logged in
+            {
+                const parties = await contract.call('getAllParties');
+                // console.log(parties.filter(party => party[3]==1))
+            }
+        }
+    
+        fetchData();
+    }, [address, contract, isLoading]);
 
     function handleSubmit(event) {
         event.preventDefault();
