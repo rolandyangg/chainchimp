@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   Heading,
@@ -29,46 +29,27 @@ export default function Transaction() {
   const address = useAddress();
   const sdk = useSDK();
   const { isLoading, contract } = useContract(CONTRACT_ID);
-  const [error, setError] = useState();
 
   async function handleSubmit(event) {
       event.preventDefault();
       const formData = new FormData(event.target);
       const data = Object.fromEntries(formData.entries());
 
-      try{
-        const res = await contract.call("createTransaction", [address, data.receiver, data.productID, web3.utils.toWei(data.price, 'ether'), data.memo]);
-        const isNewParty = await contract.call("isNewParty", [address]);
-
-        if(isNewParty)
-        {
-          setError("Not a valid party");
-          console.log("not a valid party");
-        }
-        else if (parseInt(res[0]._hex, 16) == 1)
-        {
-          console.log("Valid transaction");
-          await sdk.wallet.transfer(data.receiver, data.price)
-          console.log("done");
-        } else
-        {
-          setError("Error! Transaction not in correct order!");
-          console.log("Error! Transaction not in correct order!");
-        }
-      }
-      catch (e) {
-        setError("Invalid data!");
-        console.log(e);
-      }
+      
+      const res = await contract.call("createTransaction", [address, data.receiver, data.productID, web3.utils.toWei(data.price, 'ether'), data.memo]);
+      console.log(res);
+      if (parseInt(res[0]._hex, 16) == 1)
+      {
+        console.log("Valid Transaction");
+        sdk.wallet.transfer(data.receiver, data.price);
+      } else
+      console.log("Error! Transaction not in correct order!");
     }
   return (
     <>
                 <Heading m="7" size="lg" textAlign="center">Make Transaction</Heading>
                 
                 <Divider/>
-                {error && 
-                  <div> { error } </div>
-                }
                 <form onSubmit={handleSubmit}>
                     <FormControl py="2" minW="700px" isRequired>
                         <FormLabel>Recieving Address</FormLabel>
