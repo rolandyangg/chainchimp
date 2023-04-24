@@ -5,6 +5,7 @@ pragma solidity ^0.8.0;
 // Define the contract
 contract SupplyChain {
     enum STAGE {
+        ChainManager,
         Raw_Material,
         Manufacturer,
         Distributor,
@@ -51,17 +52,18 @@ contract SupplyChain {
     
     constructor() {
     // Initialize the mappings in the constructor
-    STAGE_TO_NUM[STAGE.Raw_Material] = 0;
-    STAGE_TO_NUM[STAGE.Manufacturer] = 1;
-    STAGE_TO_NUM[STAGE.Distributor] = 2;
-    STAGE_TO_NUM[STAGE.Retailer] = 3;
-    STAGE_TO_NUM[STAGE.Consumer] = 4;
+    STAGE_TO_NUM[STAGE.ChainManager] = 0;
+    STAGE_TO_NUM[STAGE.Raw_Material] = 1;
+    STAGE_TO_NUM[STAGE.Manufacturer] = 2;
+    STAGE_TO_NUM[STAGE.Distributor] = 3;
+    STAGE_TO_NUM[STAGE.Retailer] = 4;
+    STAGE_TO_NUM[STAGE.Consumer] = 5;
 
-    NUM_TO_STAGE[0] = STAGE.Raw_Material;
-    NUM_TO_STAGE[1] = STAGE.Manufacturer;
-    NUM_TO_STAGE[2] = STAGE.Distributor;
-    NUM_TO_STAGE[3] = STAGE.Retailer;
-    NUM_TO_STAGE[4] = STAGE.Consumer;
+    NUM_TO_STAGE[1] = STAGE.Raw_Material;
+    NUM_TO_STAGE[2] = STAGE.Manufacturer;
+    NUM_TO_STAGE[3] = STAGE.Distributor;
+    NUM_TO_STAGE[4] = STAGE.Retailer;
+    NUM_TO_STAGE[5] = STAGE.Consumer;
     }
 
     // Input: product name, quantity | Returns item ID
@@ -71,7 +73,7 @@ contract SupplyChain {
         // require(some condition)
         product.id = _id;
         product.quantity = _quantity;
-        product.stage = STAGE.Raw_Material;
+        product.stage = STAGE.ChainManager;
         product.item = _item;
         parties[_wallet].productIDs.push(_id);
         
