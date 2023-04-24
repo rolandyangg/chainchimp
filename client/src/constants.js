@@ -1,1 +1,1 @@
-export const CONTRACT_ID =  "0xBFdd19b0f4bd2DC8e8AA161CC43F1c8e5e00f3b9";
+export const CONTRACT_ID =  "0xbFc50ce1b3be6A9C228056B231BDdd812a63c39f";
