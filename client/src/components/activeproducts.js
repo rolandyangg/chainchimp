@@ -51,7 +51,7 @@ export default function ActiveProducts() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 250);
 
   }, [address, contract, isLoading]);
 
