@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Center,
   Card,
@@ -34,7 +34,10 @@ import {
 import { useAddress, useContract } from '@thirdweb-dev/react';
 import { CONTRACT_ID, STAGE, STAGE_TO_NUM } from '../constants';
 
-function ChainTable({party_name, party_enum}) {
+function ChainTable({party_name, parties, party_enum}) {
+    useEffect(() => {
+        console.log(party_name, parties)
+    }, [])
     return (
         <>
             <TableContainer border="1px" rounded={7}>
@@ -47,11 +50,13 @@ function ChainTable({party_name, party_enum}) {
                     <Th>Location</Th>
                 </Tr>
                 </Thead>
-                <Tbody>
-                    <Td>S123012310312031203</Td>
-                    <Td>Joe's Wood Shack</Td>
-                    <Td>UCLA</Td>
-                </Tbody>
+                {parties && parties.map(party => 
+                    <Tbody>
+                        <Td>{party[0]}</Td>
+                        <Td>{party[1]}</Td>
+                        <Td>{party[2]}</Td>
+                    </Tbody>
+                )}
                 </Table>
             </TableContainer>
         </>
@@ -61,6 +66,20 @@ function ChainTable({party_name, party_enum}) {
 export default function ManageChain() {
     const address = useAddress();
     const { isLoading, contract } = useContract(CONTRACT_ID);
+    const [parties, setParties] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            if(address && !isLoading) // logged in
+            {
+                const parties = await contract.call('getAllParties');
+                setParties(parties);
+                console.log("main parties", parties.filter(party => party[3] == STAGE_TO_NUM.get("Supplier")))
+            }
+        }
+    
+        fetchData();
+    }, [address, contract, isLoading]);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -100,25 +119,21 @@ export default function ManageChain() {
             </form>
 
 
+        <Divider color="white" my="10px"  w={{base: "400px", md: "700px"}}/>
+
+        <ChainTable party_name="Raw Materials" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Raw Materials"))}/>
         <Divider color="white" my="10px" w="800px"/>
 
-        <ChainTable party_name="Raw Materials"/>
-
+        <ChainTable party_name="Supplier" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Supplier"))}/>
         <Divider color="white" my="10px" w="800px"/>
 
-        <ChainTable party_name="Supplier"/>
-
+        <ChainTable party_name="Manufacturer" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Manufacturer"))}/>
         <Divider color="white" my="10px" w="800px"/>
 
-        <ChainTable party_name="Manufacturer"/>
-
+        <ChainTable party_name="Distributer" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Distributor"))}/>
         <Divider color="white" my="10px" w="800px"/>
 
-        <ChainTable party_name="Distributor"/>
-
-        <Divider color="white" my="10px" w="800px"/>
-
-        <ChainTable party_name="Consumer"/>
+        <ChainTable party_name="Consumer" parties={parties.filter(party => party[3] == STAGE_TO_NUM.get("Consumer"))}/>
     </>
   );
 }

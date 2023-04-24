@@ -46,6 +46,24 @@ contract SupplyChain {
 
     address[] partyAddresses;
 
+    mapping(STAGE => uint256) public STAGE_TO_NUM;
+    mapping(uint256 => STAGE) public NUM_TO_STAGE;
+    
+    constructor() {
+    // Initialize the mappings in the constructor
+    STAGE_TO_NUM[STAGE.Raw_Material] = 0;
+    STAGE_TO_NUM[STAGE.Manufacturer] = 1;
+    STAGE_TO_NUM[STAGE.Distributor] = 2;
+    STAGE_TO_NUM[STAGE.Retailer] = 3;
+    STAGE_TO_NUM[STAGE.Consumer] = 4;
+
+    NUM_TO_STAGE[0] = STAGE.Raw_Material;
+    NUM_TO_STAGE[1] = STAGE.Manufacturer;
+    NUM_TO_STAGE[2] = STAGE.Distributor;
+    NUM_TO_STAGE[3] = STAGE.Retailer;
+    NUM_TO_STAGE[4] = STAGE.Consumer;
+    }
+
     // Input: product name, quantity | Returns item ID
     function createProduct(address _wallet, string memory _item, uint _quantity) public returns (uint) {
         uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender))) % 10000000000;
@@ -85,8 +103,10 @@ contract SupplyChain {
         transaction.price = _price;
         transaction.memo = _memo;
         transaction.timestamp = block.timestamp; // convert unix timestamp to actual time https://www.unixtimestamp.com/
-
+        
         products[_productID].history.push(_id); // add transaction ID to transaction history
+        
+        NUM_TO_STAGE[STAGE_TO_NUM[products[_productID].stage]++];
 
         return _id;
     }

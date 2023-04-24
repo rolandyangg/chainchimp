@@ -11,23 +11,28 @@ import {
   Input,
   Button
 } from '@chakra-ui/react';
-import Footer from '../components/footer.js'
-import Navbar from '../components/navbar.js'
 import { Web3Button } from '@thirdweb-dev/react';
 
 
 export default function Home() {
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+    // console.log(data.id);
+    window.location.href = "/track/" + data.id;
+  }
+
   return (
       <>
-      {/** NAVBAR */}
-      <Navbar/>
 
       {/** HERO */}
       <Center justify="center" p={{base: "50px", mdd: "100px"}} backgroundColor="#131313" bgImage="linear-gradient(45deg, rgba(0, 0, 0, 0.6) 0%, rgba(60, 60, 60, 0) 100%), url('SCM-HRM.png')" position="block" backgroundSize="cover" >
         <Flex direction={{ base: "column", md: "row"}} justify="space-between" align="center" flexWarp="wrap" w="100%" maxW="800px">
           <VStack my="200px">
             <Heading>The Future of Supply Chain Management</Heading>
-            <Text fontSize="xl">Using blockchain to keep your chain transparent, safe, and efficient</Text>
+            <Text fontSize="xl">Using blockchain to keep your supply chain transparent, safe, and efficient</Text>
           </VStack>
           <VStack align="start" fontSize="xl" my="10px" flexWrap="nowrap">
               <Center mx="20px" my="10px">
@@ -41,13 +46,13 @@ export default function Home() {
     <Center justify="center" p={{base: "50px", mdd: "100px"}} backgroundColor="#131313" position="block" >
         <Flex direction={{ base: "column", md: "row"}} justify="space-between" align="center" flexWarp="wrap" w="100%" maxW="800px">
           <VStack align="start" fontSize="xl" my="10px" flexWrap="nowrap">
-            <form>
-                <FormControl py="2" minW="400px">
-                    <FormLabel>ID</FormLabel>
-                    <Input/>
-                </FormControl>
-                <Button mt="4" colorScheme="blue" size="md" w="full" loadingText="Logging In">View History</Button>
-              </form>
+            <form onSubmit={handleSubmit}>
+              <FormControl py="2" minW="400px">
+                  <FormLabel>Product ID</FormLabel>
+                  <Input name="id"/>
+              </FormControl>
+              <Button mt="4" type="submit" colorScheme="blue" size="md" w="full" loadingText="Logging In">View History</Button>
+            </form>
           </VStack>
           <VStack my="150px">
             <Heading>Track Your Product</Heading>
@@ -60,8 +65,6 @@ export default function Home() {
 
     {/** SOLUTION/HOW IT WORKS */}
 
-    {/** FOOTER */}
-    <Footer/>
       </>
   );
 }
