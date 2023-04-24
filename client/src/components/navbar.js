@@ -19,7 +19,7 @@ export default function Navbar() {
 
   useEffect(() => {
     async function fetchData() {
-      console.log(address, isLoading);
+      // console.log(address, isLoading);
       if(address && !isLoading) // logged in
       {
         const isNewParty = await contract.call('isNewParty', [address])

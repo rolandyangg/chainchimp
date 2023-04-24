@@ -1,0 +1,3 @@
+export default {
+    CONTRACT_ID: "0x1A81035B08a17bE02D83B5d3dAF2d6fa5cA4B3f8"
+}
