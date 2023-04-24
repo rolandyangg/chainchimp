@@ -69,18 +69,21 @@ export default function ManageChain() {
     const { isLoading, contract } = useContract(CONTRACT_ID);
     const [parties, setParties] = useState([]);
 
-    useEffect(() => {
-        async function fetchData() {
-            if(address && !isLoading) // logged in
-            {
-                const parties = await contract.call('getAllParties');
-                setParties(parties);
-                console.log("main parties", parties.filter(party => party[3] == STAGE_TO_NUM.get("Supplier")))
-            }
+    async function fetchData() {
+        if(address && !isLoading) // logged in
+        {
+            const parties = await contract.call('getAllParties');
+            setParties(parties);
         }
-    
-        fetchData();
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchData();
+        }, 250);
+
     }, [address, contract, isLoading]);
+
 
     function handleSubmit(event) {
         event.preventDefault();

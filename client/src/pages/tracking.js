@@ -7,13 +7,13 @@ import {
   Text,
   Flex,
   VStack,
+  Link,
   Button,
   HStack,
   Heading,
   Progress,
   Input,
   Divider,
-  Link,
   Tabs,
   TabList,
   Tab,
@@ -75,6 +75,12 @@ function TransactionCard({id, sender, receiver, sender_role, reciever_role, pric
                         <Text>Sender ({sender_role}): {sendername} (<Link isExternal href={"https://sepolia.etherscan.io/address/" + sender.toString()}>{sender}</Link>)</Text>
                         <Text>Receiver ({reciever_role}): {receivername} (<Link isExternal href={"https://sepolia.etherscan.io/address/" + receiver.toString()}>{receiver}</Link>)</Text>
                         <Text>Timestamp: {timeConverter(timestamp)}</Text>
+=======
+                        <Text>ID: {id}</Text>
+                        <Text>Sender ({sender_role}): {sender}</Text>
+                        <Text>Receiver ({reciever_role}): {receiver}</Text>
+                        <Text>Timestamp: {timestamp}</Text>
+>>>>>>> 36b9cf7fbc163e0fb90cde46c8e0ccaccea74520
                     </VStack>
                     <Box m="30px">
                     <Text>Memo: {memo}</Text>
@@ -110,7 +116,6 @@ export default function Tracking() {
       if(address && !isLoading) // logged in
       {
         setProduct(await contract.call('getProduct', [id]));
-        console.log(product)
       }
     }
   
@@ -129,18 +134,18 @@ export default function Tracking() {
   return (
     <>
       <Center m={{base: "25px", md: "50px"}}>
-            <VStack align="center" border="1px" p="30px" rounded={7} w="95%" maxW="1200px" minH="700px">
+            <VStack border="1px" p="30px" rounded={7} w="95%" maxW="1200px" minH="700px">
 
             {/* PRODUCT MAIN INFORMATION */}
                 <Heading py="10px" fontSize="2xl">Product Information</Heading>
-            {product && 
+            {product &&
               <div>
                 {product[2] ? 
                   <Box align="left">
                       <VStack align="left" p="20px" minW={{base: "400px", md: "700px"}}>
                           <Text fontSize="lg">Name: {product[2]} </Text>
                           <Text fontSize="lg">ID: {id} </Text>
-                          <Text fontSize="lg">Quantity: {parseInt(product[3]._hex, 16)} </Text> 
+                          <Text fontSize="lg">Quantity: {product[3]._hex} </Text>
                           <Text fontSize="lg">Stage: {NUM_TO_STAGE.get(product[1])} </Text>
                           <Text fontSize="lg">Current Owner: <Link isExternal href={"https://sepolia.etherscan.io/address/" + product[5].toString()}>{product[6] + " (" + product[5] + ")"}</Link></Text>
                           <Progress align="left" height="16px" color="white" w="100%" value={(100*product[1])/5}/>
