@@ -129,7 +129,7 @@ export default function Tracking() {
   return (
     <>
       <Center m={{base: "25px", md: "50px"}}>
-            <VStack border="1px" p="30px" rounded={7} w="95%" maxW="1200px" minH="700px">
+            <VStack align="center" border="1px" p="30px" rounded={7} w="95%" maxW="1200px" minH="700px">
 
             {/* PRODUCT MAIN INFORMATION */}
                 <Heading py="10px" fontSize="2xl">Product Information</Heading>
@@ -159,15 +159,31 @@ export default function Tracking() {
             {transactionHistory && 
               <div>
                 {
-                  (transactionHistory[0])
-                    ?  <TransactionCard id={id} sender={transactionHistory[0].sender} 
-                                      sender_role={NUM_TO_STAGE.get(product[1]-1)} 
-                                      receiver={transactionHistory[0].receiver} 
-                                      reciever_role={NUM_TO_STAGE.get(product[1])} 
-                                      price={transactionHistory[0].price}
-                                      memo={transactionHistory[0].memo}
-                                      timestamp={transactionHistory[0].timestamp._hex}
-                                      />
+                  (transactionHistory[0]) ? (
+                    transactionHistory.map(history =>
+                          {
+                            return <TransactionCard id={history[0]._hex} sender={history.sender}
+                            sender_role={""} receiver={history.receiver} receiver_role={""} price={history.price} 
+                            memo={history.memo} timestamp={history.timestamp._hex}/>
+                          })
+                    // <TransactionCard id={id} sender={transactionHistory[0].sender} 
+                    //                   sender_role={NUM_TO_STAGE.get(product[1]-1)} 
+                    //                   receiver={transactionHistory[0].receiver} 
+                    //                   reciever_role={NUM_TO_STAGE.get(product[1])} 
+                    //                   price={transactionHistory[0].price}
+                    //                   memo={transactionHistory[0].memo}
+                    //                   timestamp={transactionHistory[0].timestamp._hex}
+                    //                   />
+                  )
+                  // <>
+                  //     transactionHistory.map(history =>
+                  //     {
+                  //       return <TransactionCard id={history.id} sender={history.sender}
+                  //       sender_role="" reciever={history.reciever} reciever_role="" price={history.price} 
+                  //       memo={history.memo} timestamp={history.timestamp._hex}/>
+                  //     })
+                  //   </>
+                    
                     : <div> no valid transactions </div>
                 }
               </div>
