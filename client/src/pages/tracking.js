@@ -13,6 +13,7 @@ import {
   Progress,
   Input,
   Divider,
+  Link,
   Tabs,
   TabList,
   Tab,
@@ -51,16 +52,29 @@ struct Transaction {
  */
 
 function TransactionCard({id, sender, receiver, sender_role, reciever_role, price, memo, timestamp}) {
-    return (
+  function timeConverter(UNIX_timestamp){
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = month + ' ' + date + ', ' + year + ' ' + hour + ':' + min + ':' + sec ;
+    return time;
+  }  
+  
+  return (
         <>
         <Card mx="10px" my="30px" overflow='hidden' variant='outline' maxW="90%" bgColor="blackAlpha.300" color="white">
             <CardBody mt="-7px">
                 <Flex align="center" justify="space-between" w="100%">
                     <VStack align="left">
                         <Text>ID: {id}</Text>
-                        <Text>Sender ({sender_role}): {sender}</Text>
-                        <Text>Receiver ({reciever_role}): {receiver}</Text>
-                        <Text>Timestamp: {timestamp}</Text>
+                        <Text>Sender ({sender_role}): <Link isExternal href={"https://sepolia.etherscan.io/address/" + sender.toString()}>{sender}</Link></Text>
+                        <Text>Receiver ({reciever_role}): <Link isExternal href={"https://sepolia.etherscan.io/address/" + receiver.toString()}>{receiver}</Link></Text>
+                        <Text>Timestamp: {timeConverter(timestamp)}</Text>
                     </VStack>
                     <Box m="30px">
                     <Text>Memo: {memo}</Text>

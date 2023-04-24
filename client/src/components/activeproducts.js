@@ -76,7 +76,8 @@ export default function ActiveProducts() {
 
         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
         {products && products.map(product => 
-        {
+        { 
+          console.log(typeof product[0]._hex);
             // [id, stage, name]
             return <ProductCard name={product[2]} id={product[0]._hex} stage={NUM_TO_STAGE.get(product[1])} party={NUM_TO_STAGE.get(product[1])} progress={product[1] * 25}/>
         })}
