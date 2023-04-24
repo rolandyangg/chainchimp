@@ -113,23 +113,23 @@ export default function ManageChain() {
             </form>
 
 
-        <Divider color="white" my="10px" w="800px"/>
+        <Divider color="white" my="10px"  w={{base: "400px", md: "700px"}}/>
 
         <ChainTable party_name="Raw Materials"/>
 
-        <Divider color="white" my="10px" w="800px"/>
+        <Divider color="white" my="10px"  w={{base: "400px", md: "100%"}}/>
 
         <ChainTable party_name="Supplier"/>
 
-        <Divider color="white" my="10px" w="800px"/>
+        <Divider color="white" my="10px"  w={{base: "400px", md: "700px"}}/>
 
         <ChainTable party_name="Manufacturer"/>
 
-        <Divider color="white" my="10px" w="800px"/>
+        <Divider color="white" my="10px" w={{base: "400px", md: "700px"}}/>
 
         <ChainTable party_name="Distributor"/>
 
-        <Divider color="white" my="10px" w="800px"/>
+        <Divider color="white" my="10px"  w={{base: "400px", md: "700px"}}/>
 
         <ChainTable party_name="Consumer"/>
     </>
