@@ -44,7 +44,7 @@ export default function ActiveProducts() {
       //   {name: "Laptop", id: 10, party: "jdsklfjsdlkfjsldkjf", stage: "Manufacturer"},
       //   {name: "water bottle", id: 1, party: "ur mom's party", stage: "Supplier"},
       // ])
-      console.log(products);
+      // console.log(products);
     }
   }
   

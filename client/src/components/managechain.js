@@ -13,6 +13,7 @@ import {
   Progress,
   Input,
   Divider,
+  Link,
   Tabs,
   TabList,
   Tab,
@@ -52,7 +53,7 @@ function ChainTable({party_name, parties, party_enum}) {
                 </Thead>
                 {parties && parties.map(party => 
                     <Tbody>
-                        <Td>{party[0]}</Td>
+                        <Td><Link isExternal href={"https://sepolia.etherscan.io/address/" + party[0].toString()}>{party[0]}</Link></Td>
                         <Td>{party[1]}</Td>
                         <Td>{party[2]}</Td>
                     </Tbody>
