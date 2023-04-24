@@ -48,7 +48,7 @@ contract SupplyChain {
 
     // Input: product name, quantity | Returns item ID
     function createProduct(address _wallet, string memory _item, uint _quantity) public returns (uint) {
-        uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender)));
+        uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender))) % 10000000000;
         Product storage product = products[_id];
         // require(some condition)
         product.id = _id;
@@ -74,7 +74,7 @@ contract SupplyChain {
     }
 
     function createTransaction(address _sender, address _receiver, uint _productID, uint _price, string memory _memo) public returns (uint) {
-        uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender)));
+        uint _id = uint(keccak256(abi.encodePacked(block.timestamp,msg.sender))) % 10000000000;
 
         Transaction storage transaction = transactions[_id];
 
