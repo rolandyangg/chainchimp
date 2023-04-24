@@ -73,9 +73,10 @@ export default function ActiveProducts() {
 
         {/* <Text fontWeight="bold" fontSize="2xl">test</Text> */}
         {products && products.map(product => 
-        {
+        { 
+          console.log(typeof product[0]._hex);
             // [id, stage, name]
-            return <ProductCard name={product[2]} id={product[0]._hex} stage={product[1]} party={product[1]} progress={product[1] * 25}/>
+            return <ProductCard name={product[2]} id={product[0]._BigNumber} stage={product[1]} party={product[1]} progress={product[1] * 25}/>
         })}
         </Box>
     </>
