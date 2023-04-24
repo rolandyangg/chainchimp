@@ -58,9 +58,9 @@ function TransactionCard({id, sender, receiver, sender_role, reciever_role, pric
                 <Flex align="center" justify="space-between" w="100%">
                     <VStack align="left">
                         <Text>ID: {id}</Text>
-                        <Text>Sender ({sender_role}): {id}</Text>
-                        <Text>Receiver ({reciever_role}): {id}</Text>
-                        <Text>Timestamp: {id}</Text>
+                        <Text>Sender ({sender_role}): {sender}</Text>
+                        <Text>Receiver ({reciever_role}): {receiver}</Text>
+                        <Text>Timestamp: {timestamp}</Text>
                     </VStack>
                     <Box m="30px">
                     <Text>Memo: {memo}</Text>
@@ -76,8 +76,20 @@ export default function Tracking() {
   const address = useAddress();
   const { isLoading, contract } = useContract(CONTRACT_ID);
   const [product, setProduct] = useState();
+  const [transactionHistory, setTransactionHistory] = useState();
   
   const { id } = useParams(); // grab the product ID
+
+  useEffect(() => {
+    async function fetchData() {
+      if(address && !isLoading) // logged in
+      {
+        setTransactionHistory(await contract.call('getTransactionHistory', [id]));
+      }
+    }
+  
+    fetchData();
+  }, [address, contract, isLoading]);
 
   useEffect(() => {
     async function fetchData() {
@@ -91,8 +103,13 @@ export default function Tracking() {
   }, [address, contract, isLoading]);
 
   useEffect(() => {
-    console.log(product)
-  }, [product])
+    console.log(transactionHistory[0].timestamp)
+  }, [transactionHistory])
+
+
+  // useEffect(() => {
+  //   console.log(product)
+  // }, [product])
 
   return (
     <>
@@ -119,7 +136,16 @@ export default function Tracking() {
             {/* PRODUCT HISTORY */}
             <Heading py="20px" fontSize="2xl">Transaction History</Heading>
 
-            <TransactionCard id="100" sender="Joe" sender_role="Distributor" receiver="Will Smith <3" reciever_role="Consumer" price="1 million robux" memo="Hey silly willy! Nice to see you! Here's your wood that your ordered uwu" timestamp="April 20th 2023"/>
+            {transactionHistory && 
+              <TransactionCard id={id} sender={transactionHistory[0].sender} 
+                                sender_role={NUM_TO_STAGE.get(product[1]-1)} 
+                                receiver={transactionHistory[0].receiver} 
+                                reciever_role={NUM_TO_STAGE.get(product[1])} 
+                                price={transactionHistory[0].price}
+                                memo={transactionHistory[0].memo}
+                                timestamp={transactionHistory[0].timestamp._hex}
+                                />
+            }
 
             </VStack>
         </Center>
