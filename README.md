@@ -45,7 +45,7 @@ We used Solidity to program and create a smart contract mimicing that of the sup
 
 For our front end we used React and ChakraUI to rapidly design a prototype of what our application may look like.
 
-We then used a variety of APIs to connect and allow our our front end to interact with the smart contract.
+We then used a variety of APIs to connect and allow our our front end to interact with the smart contract and our Metamask wallets.
 
 # How to Run It
 
