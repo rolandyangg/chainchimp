@@ -108,8 +108,8 @@ npm run deploy
 
 # Accomplishments We're Proud Of
 
-- We learned about blockchain!!!
-- We built a full-fledged dApp and Web App that acts as a solution to issues in the supply chain management system
+- We learned about blockchain!!! (Smart Contracts, Solidity, Etherium, and a bunch of other fun theory stuff)
+- We built a functional dApp with an interatctive UI that acts as a solution to issues in the supply chain management system
 - Hopefully won a prize???
 
 # Additional Images
