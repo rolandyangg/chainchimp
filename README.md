@@ -9,7 +9,7 @@ LAHacks 2023 Project (Gode Chain Challenge Entry)
 Currently there are many problems in the supply chain management ecosystem:
 
 - Traceability - Beyond the direct contact of two parties, it is often difficult to trace back the origins of a product. If your table is defective, is it the manufacturer's fault for the design or the supplier's fault for supplying poor materials?
-- Trust - How do you know what you are receiving is actually what you asked for? Although document tampering is unethical, it is never impossible. There could be errors between transactions, and some shipments may try to cut corners...
+- Trust - How do you know what you are receiving is actually what you asked for (especially when it comes to brand name products)? Although document tampering is unethical, it is never impossible. There could be errors between transactions, and some shipments may try to cut corners...
 - Labor - Performing transactions themselves take a lot of work. Often there is middlemen, a lot of paperwork, and other busy work that goes into a singular transaction.
 
 To remedy these many issues we propose the usage of a blockchain to create a decentralized (traceability) application that mimics the supply chain management system!
