@@ -1,6 +1,6 @@
 # ChainChimp
 
-LAHacks 2023 Project (Gode Chain Challenge Entry)
+LAHacks 2023 Project (Gode Chain Challenge Entry/Winner)
 
 <img width="1070" alt="image" src="https://user-images.githubusercontent.com/42717361/234216001-750186d4-50d9-4ef9-b2f9-9fc5e2023db1.png">
 
@@ -110,7 +110,6 @@ npm run deploy
 
 - We learned about blockchain!!! (Smart Contracts, Solidity, Etherium, and a bunch of other fun theory stuff)
 - We built a functional dApp with an interatctive UI that acts as a solution to issues in the supply chain management system
-- Hopefully won a prize???
-
+- Won the challenge by default because we were the only team that satisfied the challenge requirements, but Gode Chain didn't actually have any money and was a scam so they pulled out of the hackathon after submissions LOL
 # Additional Images
 <img width="790" alt="image" src="https://user-images.githubusercontent.com/42717361/234216252-0448f49b-10dc-4b1e-ac31-324be4be45d7.png">
